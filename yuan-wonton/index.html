@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yuan Wonton — Denver</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#131c18; --ink2:#1b2721; --jade:#17604e; --jade2:#0f4a3c;
+  --verm:#bf3b2b; --verm2:#a02e21; --gold:#c9a24b; --gold2:#e6c877;
+  --paper:#faf6ee; --paper2:#f3ead9; --text:#23291f; --muted:#7a7263;
+}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--paper);color:var(--text);line-height:1.6}
+/* ---------- demo badge (outer frame only) ---------- */
+.demo-badge{position:fixed;top:12px;right:12px;z-index:999;background:#131c18;color:#e6c877;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:8px 14px;border-radius:999px;border:1px solid #c9a24b;opacity:.92}
+/* ---------- hero ---------- */
+.hero{background:radial-gradient(circle at 85% 20%,rgba(201,162,75,.22),transparent 55%),radial-gradient(circle at 10% 90%,rgba(23,96,78,.35),transparent 55%),linear-gradient(150deg,#131c18 0%,#1b2721 55%,#0f4a3c 130%);color:#fff;padding:96px 20px 64px;text-align:center;position:relative;overflow:hidden}
+.hero::after{content:'元';position:absolute;right:-30px;bottom:-90px;font-size:340px;font-family:Georgia,'Times New Roman',serif;color:rgba(230,200,119,.08);line-height:1;pointer-events:none}
+.hero .kicker{display:inline-block;background:var(--gold);color:#131c18;font-weight:800;font-size:12px;letter-spacing:2px;padding:7px 18px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-family:Georgia,'Times New Roman',serif;font-size:clamp(2.4em,6vw,3.8em);font-weight:700;line-height:1.1;letter-spacing:1px}
+.hero h1 .accent{color:var(--gold2)}
+.hero .tag{font-size:1.15em;margin-top:12px;opacity:.94;max-width:560px;margin-left:auto;margin-right:auto}
+.hero .chef{margin-top:8px;font-size:.98em;color:#d8c491;font-style:italic;font-family:Georgia,serif}
+.open-now{display:inline-block;margin-top:14px;padding:8px 22px;border-radius:25px;font-weight:bold;font-size:.95em}
+.open{background:#2e7d32;color:#fff}.closed{background:#6d4c41;color:#fff}
+.cta-row{margin-top:26px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2}
+.btn{display:inline-block;font-weight:800;padding:15px 36px;border-radius:999px;text-decoration:none;font-size:1.05em;transition:transform .15s}
+.btn-primary{background:linear-gradient(135deg,#d34a35,var(--verm2));color:#fff;box-shadow:0 6px 24px rgba(191,59,43,.45)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:2px solid rgba(255,255,255,.55)}
+.btn-ghost:hover{background:rgba(255,255,255,.22)}
+/* ---------- sections ---------- */
+.container{max-width:960px;margin:0 auto;padding:48px 20px}
+h2{font-family:Georgia,'Times New Roman',serif;font-size:1.9em;margin-bottom:6px;color:var(--jade2)}
+.sec-sub{color:var(--muted);margin-bottom:26px;font-size:1.02em}
+.today-line{display:inline-block;background:var(--paper2);border:1px solid var(--gold);color:var(--ink);font-weight:700;padding:8px 20px;border-radius:999px;margin-bottom:8px;font-size:.98em}
+.today-line .dot{color:var(--verm)}
+.menu-cat{font-size:1.25em;font-weight:800;color:var(--ink);margin:30px 0 14px;display:flex;align-items:center;gap:10px}
+.menu-cat::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 14px rgba(30,40,20,.09);border-top:4px solid var(--jade);display:flex;flex-direction:column}
+.card.hot{border-top-color:var(--verm)}
+.card h3{font-size:1.08em;margin-bottom:2px}
+.card .tag-sm{display:inline-block;font-size:.72em;font-weight:800;letter-spacing:1px;color:var(--verm);text-transform:uppercase;margin-bottom:2px}
+.card .price{color:var(--verm);font-weight:800;font-size:1.2em;margin:4px 0}
+.card p{font-size:.9em;color:var(--muted);flex:1}
+.card .add{margin-top:12px;background:var(--ink);color:#fff;border:none;font-weight:700;padding:10px;border-radius:10px;cursor:pointer;font-size:.95em}
+.card .add:hover{background:var(--jade2)}
+.card .add.added{background:#2e7d32}
+/* ---------- order panel ---------- */
+.order-panel{background:var(--ink);color:#fff;border-radius:18px;padding:32px;margin:44px 0;box-shadow:0 10px 40px rgba(19,28,24,.35)}
+.order-panel h2{color:var(--gold2);margin-bottom:4px}
+.order-panel .sec-sub{color:#b3a888}
+#orderList{list-style:none;margin:18px 0}
+#orderList li{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed #44503f;font-size:.98em}
+#orderList .rm{background:none;border:none;color:#e0785f;cursor:pointer;font-size:1.1em;font-weight:700}
+#orderTotal{font-size:1.35em;font-weight:800;text-align:right;margin:8px 0 18px;color:var(--gold2)}
+.order-form{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px}
+.order-form input,.order-form select{background:#22302a;border:1px solid #44503f;color:#fff;padding:13px 16px;border-radius:10px;font-size:1em;width:100%}
+.order-form input::placeholder{color:#8f9077}
+.place-btn{width:100%;background:linear-gradient(135deg,#d34a35,var(--verm2));color:#fff;border:none;font-weight:800;font-size:1.15em;padding:16px;border-radius:14px;cursor:pointer}
+.place-btn:hover{filter:brightness(1.08)}
+.confirm{display:none;text-align:center;padding:20px 0}
+.confirm .big{font-size:3em;margin-bottom:10px}
+.confirm h3{color:var(--gold2);font-size:1.5em;margin-bottom:8px}
+.confirm p{color:#e6ddc4;max-width:440px;margin:0 auto}
+.empty-note{color:#8f9077;text-align:center;padding:18px 0;font-style:italic}
+/* ---------- visit ---------- */
+.locs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.loc{background:#fff;border-radius:14px;padding:26px;box-shadow:0 2px 14px rgba(30,40,20,.09)}
+.loc h3{color:var(--jade2);margin-bottom:8px;font-size:1.2em}
+.loc p{margin:6px 0;color:var(--text)}
+.loc .hours{color:var(--muted);font-size:.93em}
+.loc a{color:var(--verm);font-weight:700;text-decoration:none}
+/* ---------- hype ---------- */
+.hype{background:linear-gradient(135deg,var(--jade2),#0a352a);color:#fff;border-radius:18px;padding:36px;text-align:center;margin:44px 0}
+.hype .medal{font-size:2.4em;margin-bottom:6px}
+.hype h2{color:var(--gold2)}
+.hype p{max-width:580px;margin:10px auto 0;color:#e9e2cc;font-size:1.05em}
+/* ---------- footer ---------- */
+footer{background:var(--ink);color:#9a9a83;text-align:center;padding:34px 20px;font-size:.9em}
+footer .fname{color:var(--gold2);font-weight:800;font-size:1.1em;margin-bottom:6px;font-family:Georgia,serif}
+.demo-note{background:#fff3cd;border:1px solid #ffc107;border-radius:10px;padding:14px 18px;margin:34px auto 0;max-width:960px;font-size:.88em;text-align:center;color:#5d4a1f}
+/* ---------- sticky bar ---------- */
+.sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#d34a35,var(--verm2));padding:15px;text-align:center;z-index:100}
+.sticky-bar a{color:#fff;text-decoration:none;font-weight:800;font-size:1.15em}
+@media(max-width:640px){
+  .sticky-bar{display:block}
+  body{padding-bottom:60px}
+  .order-form{grid-template-columns:1fr}
+  .container{padding:36px 16px}
+  .hero::after{font-size:220px;bottom:-60px}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-badge">DEMO CONCEPT</div>
+
+<div class="hero">
+  <div class="kicker">🏆 2026 JAMES BEARD FOUNDATION FINALIST</div>
+  <h1>Yuan <span class="accent">Wonton</span></h1>
+  <p class="tag">Handmade wontons &amp; Chinese-fusion comfort food in Park Hill, Denver — with a menu that changes every single day.</p>
+  <p class="chef">Chef Penelope Wong · Best Chef: Mountain Finalist, 2nd year running</p>
+  <div><span class="open-now" id="openBadge">Checking hours…</span></div>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#menu">🥟 See Today's Menu</a>
+    <a class="btn btn-ghost" href="#visit">📍 Visit Us</a>
+  </div>
+</div>
+
+<div class="container" id="menu">
+  <h2>Today's Menu</h2>
+  <div><span class="today-line">📅 <span id="todayDate">Today</span> <span class="dot">•</span> Fresh this morning — when it's gone, it's gone</span></div>
+  <p class="sec-sub" style="margin-top:14px">Our menu changes daily based on what's fresh and what Chef Penelope is craving. Here's what's on today — add items to pre-order for pickup and skip the line.</p>
+
+  <div class="menu-cat">🥟 Wontons &amp; Dumplings</div>
+  <div class="menu">
+    <div class="card hot"><span class="tag-sm">The Signature</span><h3>OG Chili Oil Wontons</h3><div class="price">$14</div><p>Pork &amp; chive wontons folded by hand, drowned in our house chili crisp. The one everyone talks about. (Veggie version available.)</p><button class="add" data-name="OG Chili Oil Wontons" data-price="14">Add to Pre-Order</button></div>
+    <div class="card"><h3>Tom Kha Chicken Wontons</h3><div class="price">$15</div><p>Chicken wontons in a coconut-galangal broth with lemongrass, lime leaf &amp; chili. Comforting, bright, a little spicy.</p><button class="add" data-name="Tom Kha Chicken Wontons" data-price="15">Add to Pre-Order</button></div>
+    <div class="card"><h3>Szechuan Eggplant Dumplings</h3><div class="price">$13</div><p>Silky roasted eggplant, Szechuan pepper &amp; garlic in a tender wrapper. Fully vegan, fully addictive.</p><button class="add" data-name="Szechuan Eggplant Dumplings" data-price="13">Add to Pre-Order</button></div>
+    <div class="card"><h3>Pad Krapao Potstickers</h3><div class="price">$14</div><p>Thai basil pork potstickers, crisped golden on the bottom, with a chili-lime dip.</p><button class="add" data-name="Pad Krapao Potstickers" data-price="14">Add to Pre-Order</button></div>
+    <div class="card"><h3>Shrimp Wontons, Ginger-Scallion</h3><div class="price">$15</div><p>Plump shrimp wontons in a clear ginger-scallion broth with baby bok choy.</p><button class="add" data-name="Shrimp Wontons, Ginger-Scallion" data-price="15">Add to Pre-Order</button></div>
+  </div>
+
+  <div class="menu-cat">🍜 Noodles &amp; Small Plates</div>
+  <div class="menu">
+    <div class="card"><h3>Crispy Garlic Noodles</h3><div class="price">$14</div><p>Springy noodles wok-tossed with crispy garlic, scallion &amp; a savory soy glaze.</p><button class="add" data-name="Crispy Garlic Noodles" data-price="14">Add to Pre-Order</button></div>
+    <div class="card hot"><span class="tag-sm">Brings the Heat</span><h3>Dan Dan Noodles</h3><div class="price">$15</div><p>Chili oil, Szechuan pepper, seasoned pork &amp; peanuts over chewy noodles. Numbing in the best way.</p><button class="add" data-name="Dan Dan Noodles" data-price="15">Add to Pre-Order</button></div>
+    <div class="card"><h3>Smashed Cucumber Salad</h3><div class="price">$8</div><p>Garlic, black vinegar &amp; chili oil over crunchy smashed cucumbers. The essential cool-down.</p><button class="add" data-name="Smashed Cucumber Salad" data-price="8">Add to Pre-Order</button></div>
+    <div class="card"><h3>Mom &amp; Dad's Egg Rolls (2 pc)</h3><div class="price">$9</div><p>A family recipe — crispy, pork &amp; veggie filled, with sweet chili sauce.</p><button class="add" data-name="Mom & Dad's Egg Rolls (2 pc)" data-price="9">Add to Pre-Order</button></div>
+  </div>
+
+  <div class="menu-cat">🥮 Bao &amp; Something Sweet</div>
+  <div class="menu">
+    <div class="card"><h3>TFC Gua Bao</h3><div class="price">$13</div><p>Taiwanese fried chicken in a pillowy steamed bun with pickled mustard greens &amp; mayo.</p><button class="add" data-name="TFC Gua Bao" data-price="13">Add to Pre-Order</button></div>
+    <div class="card"><h3>Chasiu Pork Bao</h3><div class="price">$7</div><p>Fluffy baked bun stuffed with glossy Cantonese BBQ pork.</p><button class="add" data-name="Chasiu Pork Bao" data-price="7">Add to Pre-Order</button></div>
+    <div class="card"><h3>Chinese Chive Bao</h3><div class="price">$6</div><p>Pan-fried bun with garlic chives &amp; egg. Simple, fragrant, vegan-friendly.</p><button class="add" data-name="Chinese Chive Bao" data-price="6">Add to Pre-Order</button></div>
+    <div class="card"><h3>Mantou &amp; Ube Condensed Milk</h3><div class="price">$8</div><p>Warm steamed mantou with a purple ube condensed-milk dip. Save room for this one.</p><button class="add" data-name="Mantou & Ube Condensed Milk" data-price="8">Add to Pre-Order</button></div>
+  </div>
+
+  <div class="order-panel" id="order">
+    <h2>🥟 Pre-Order for Pickup</h2>
+    <p class="sec-sub">Lunch is only 11–3 and the line forms fast. Send your order ahead — we'll text you to confirm.</p>
+    <ul id="orderList"></ul>
+    <p class="empty-note" id="emptyNote">Nothing here yet — add something tasty from today's menu above.</p>
+    <div id="orderTotal" style="display:none">Estimated total: $<span id="totalAmt">0.00</span></div>
+    <div class="order-form" id="orderForm" style="display:none">
+      <input type="text" id="custName" placeholder="Your name">
+      <input type="tel" id="custPhone" placeholder="Mobile number (for text confirmation)">
+      <select id="pickupTime">
+        <option value="">Pickup time…</option>
+        <option>11:30 AM</option>
+        <option>12:00 PM</option>
+        <option>12:30 PM</option>
+        <option>1:00 PM</option>
+        <option>1:30 PM</option>
+        <option>2:00 PM</option>
+        <option>2:30 PM</option>
+      </select>
+    </div>
+    <button class="place-btn" id="placeBtn" style="display:none">Send Pre-Order Request</button>
+    <div class="confirm" id="confirmBox">
+      <div class="big">🥟</div>
+      <h3>Request received!</h3>
+      <p id="confirmText">We'll text you shortly to confirm your order and pickup time.</p>
+    </div>
+  </div>
+
+  <div class="hype">
+    <div class="medal">🏆</div>
+    <h2>James Beard Finalist — Two Years Running</h2>
+    <p>Chef Penelope Wong is a <strong>2026 James Beard Foundation Finalist for Best Chef: Mountain</strong> — and you can taste why in every single wonton. Handmade daily, sold out often. Come early.</p>
+  </div>
+
+  <h2 id="visit">Visit Us</h2>
+  <p class="sec-sub">Park Hill, Denver — dine in, patio seating, or pre-order for pickup.</p>
+  <div class="locs">
+    <div class="loc">
+      <h3>📍 Yuan Wonton</h3>
+      <p>2878 Fairfax St<br>Denver, CO 80207</p>
+      <p>📞 <a href="tel:+13033205642">(303) 320-5642</a></p>
+      <p>📸 @yuanwonton</p>
+    </div>
+    <div class="loc">
+      <h3>🕐 Hours</h3>
+      <p class="hours">Tuesday – Friday<br><strong>11:00 AM – 3:00 PM</strong> (lunch only)</p>
+      <p class="hours">Saturday – Monday: Closed<br><em>The menu changes daily — check back each morning to see what's on.</em></p>
+    </div>
+  </div>
+
+  <div class="demo-note">💡 <strong>Demo concept website created by Launchly.</strong> This is a sample design — not the business's real website. Menu items, prices and hours shown are samples.</div>
+</div>
+
+<div class="sticky-bar"><a href="#order">🥟 Pre-Order for Pickup</a></div>
+
+<footer>
+  <div class="fname">Yuan Wonton</div>
+  <div>2878 Fairfax St, Denver, CO · (303) 320-5642 · 📸 @yuanwonton</div>
+</footer>
+
+<script>
+var order=[];
+function fmt(n){return n.toFixed(2)}
+function render(){
+  var list=document.getElementById('orderList');
+  list.innerHTML='';
+  var total=0;
+  order.forEach(function(it,i){
+    total+=it.price;
+    var li=document.createElement('li');
+    li.innerHTML='<span>'+it.name+'</span><span>$'+fmt(it.price)+' <button class="rm" data-i="'+i+'" aria-label="remove">×</button></span>';
+    list.appendChild(li);
+  });
+  var has=order.length>0;
+  document.getElementById('emptyNote').style.display=has?'none':'block';
+  document.getElementById('orderTotal').style.display=has?'block':'none';
+  document.getElementById('orderForm').style.display=has?'grid':'none';
+  document.getElementById('placeBtn').style.display=has?'block':'none';
+  document.getElementById('totalAmt').textContent=fmt(total);
+  document.querySelectorAll('.rm').forEach(function(b){
+    b.onclick=function(){order.splice(parseInt(b.getAttribute('data-i')),1);render();};
+  });
+}
+document.querySelectorAll('.add').forEach(function(btn){
+  btn.onclick=function(){
+    order.push({name:btn.getAttribute('data-name'),price:parseFloat(btn.getAttribute('data-price'))});
+    btn.textContent='Added ✓';btn.classList.add('added');
+    setTimeout(function(){btn.textContent='Add to Pre-Order';btn.classList.remove('added');},1200);
+    render();
+  };
+});
+document.getElementById('placeBtn').onclick=function(){
+  var name=document.getElementById('custName').value.trim();
+  var phone=document.getElementById('custPhone').value.trim();
+  var time=document.getElementById('pickupTime').value;
+  if(!name){alert('Please enter your name so we know whose order it is!');return;}
+  if(!phone){alert('Please enter your mobile number so we can text your confirmation!');return;}
+  if(!time){alert('Please pick a pickup time!');return;}
+  var total=document.getElementById('totalAmt').textContent;
+  document.getElementById('confirmText').textContent='Thanks '+name+'! Your $'+total+' pre-order request for '+time+' pickup is in. We\'ll text you at '+phone+' in just a bit to confirm — see you soon!';
+  document.getElementById('orderList').style.display='none';
+  document.getElementById('orderTotal').style.display='none';
+  document.getElementById('orderForm').style.display='none';
+  document.getElementById('placeBtn').style.display='none';
+  document.getElementById('emptyNote').style.display='none';
+  document.getElementById('confirmBox').style.display='block';
+  document.getElementById('confirmBox').scrollIntoView({behavior:'smooth',block:'center'});
+};
+/* today's date line + open-now badge (America/Denver, Tue–Fri 11 AM–3 PM) */
+try{
+  var now=new Date(new Date().toLocaleString('en-US',{timeZone:'America/Denver'}));
+  document.getElementById('todayDate').textContent=now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  var d=now.getDay(),h=now.getHours()+now.getMinutes()/60;
+  var isOpen=(d>=2&&d<=5&&h>=11&&h<15);
+  var b=document.getElementById('openBadge');
+  b.textContent=isOpen?'● Open Now — Lunch until 3 PM':'● Currently Closed — Back Tue–Fri, 11 AM–3 PM';
+  b.classList.add(isOpen?'open':'closed');
+}catch(e){}
+render();
+</script>
+</body>
+</html>
