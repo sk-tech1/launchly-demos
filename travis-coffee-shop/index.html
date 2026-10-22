@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Travis Coffee Shop — St. Clair Shores, MI</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#12262e; --navy2:#1a3540; --teal:#177e7a; --teal2:#0f5f5c;
+  --red:#b3202c; --red2:#8f1a24; --chrome:#c8ccd0;
+  --cream:#fdf8ee; --cream2:#f6ecd9; --ink:#26323a; --muted:#71828a;
+}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+/* ---------- demo badge (outer frame only) ---------- */
+.demo-badge{position:fixed;top:12px;right:12px;z-index:999;background:#12262e;color:#ffd166;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:8px 14px;border-radius:999px;border:1px solid #ffd166;opacity:.92}
+/* ---------- hero ---------- */
+.hero{background:linear-gradient(160deg,#8f1a24 0%,#b3202c 42%,#7c2d3e 78%,#12262e 130%);color:#fff;padding:90px 20px 60px;text-align:center;position:relative}
+.hero::after{content:'';position:absolute;left:0;right:0;bottom:0;height:6px;background:repeating-linear-gradient(90deg,var(--chrome) 0 46px,#e8ebee 46px 92px)}
+.hero .kicker{display:inline-block;background:#ffd166;color:#5c1210;font-weight:800;font-size:12px;letter-spacing:2px;padding:7px 18px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-size:clamp(2.2em,6vw,3.6em);font-weight:900;line-height:1.1;text-shadow:0 3px 18px rgba(0,0,0,.45)}
+.hero h1 .accent{color:#ffd166}
+.hero .tag{font-size:1.15em;margin-top:10px;opacity:.95}
+.stars{color:#ffd166;font-size:1.15em;margin:10px 0 4px}
+.stars span{color:#fff;font-size:.85em}
+.open-now{display:inline-block;margin-top:12px;padding:8px 22px;border-radius:25px;font-weight:bold;font-size:.95em}
+.open{background:#1e7d46;color:#fff}.closed{background:#5d4037;color:#fff}
+.cta-row{margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;font-weight:800;padding:15px 36px;border-radius:999px;text-decoration:none;font-size:1.05em;transition:transform .15s}
+.btn-primary{background:#fff;color:var(--red2);box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.6)}
+.btn-ghost:hover{background:rgba(255,255,255,.25)}
+/* ---------- sections ---------- */
+.container{max-width:960px;margin:0 auto;padding:48px 20px}
+h2{font-size:1.9em;margin-bottom:6px;color:var(--red2)}
+.sec-sub{color:var(--muted);margin-bottom:26px;font-size:1.02em}
+.menu-cat{font-size:1.25em;font-weight:800;color:var(--navy);margin:30px 0 14px;display:flex;align-items:center;gap:10px}
+.menu-cat::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--teal),transparent)}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 14px rgba(30,40,50,.09);border-top:4px solid var(--teal);display:flex;flex-direction:column}
+.card h3{font-size:1.08em;margin-bottom:2px}
+.card .price{color:var(--red);font-weight:800;font-size:1.2em;margin:4px 0}
+.card p{font-size:.9em;color:var(--muted);flex:1}
+.card .add{margin-top:12px;background:var(--navy);color:#fff;border:none;font-weight:700;padding:10px;border-radius:10px;cursor:pointer;font-size:.95em}
+.card .add:hover{background:var(--red2)}
+.card .add.added{background:#1e7d46}
+/* ---------- order panel ---------- */
+.order-panel{background:var(--navy);color:#fff;border-radius:18px;padding:32px;margin:44px 0;box-shadow:0 10px 40px rgba(18,38,46,.35)}
+.order-panel h2{color:#ffd166;margin-bottom:4px}
+.order-panel .sec-sub{color:#b8ccd2}
+#orderList{list-style:none;margin:18px 0}
+#orderList li{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed #47616c;font-size:.98em}
+#orderList .rm{background:none;border:none;color:#ff9d5c;cursor:pointer;font-size:1.1em;font-weight:700}
+#orderTotal{font-size:1.35em;font-weight:800;text-align:right;margin:8px 0 18px;color:#ffd166}
+.order-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.order-form input{background:#1e3d49;border:1px solid #47616c;color:#fff;padding:13px 16px;border-radius:10px;font-size:1em;width:100%}
+.order-form input::placeholder{color:#8fa5ad}
+.place-btn{width:100%;background:linear-gradient(135deg,#d92635,var(--red2));color:#fff;border:none;font-weight:800;font-size:1.15em;padding:16px;border-radius:14px;cursor:pointer}
+.place-btn:hover{filter:brightness(1.1)}
+.confirm{display:none;text-align:center;padding:20px 0}
+.confirm .big{font-size:3em;margin-bottom:10px}
+.confirm h3{color:#ffd166;font-size:1.5em;margin-bottom:8px}
+.confirm p{color:#dcebee;max-width:420px;margin:0 auto}
+.empty-note{color:#8fa5ad;text-align:center;padding:18px 0;font-style:italic}
+/* ---------- visit ---------- */
+.locs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.loc{background:#fff;border-radius:14px;padding:26px;box-shadow:0 2px 14px rgba(30,40,50,.09)}
+.loc h3{color:var(--red2);margin-bottom:8px;font-size:1.2em}
+.loc p{margin:6px 0;color:var(--ink)}
+.loc .hours{color:var(--muted);font-size:.93em}
+.loc a.call{color:var(--teal2);font-weight:700;text-decoration:none}
+.loc .dir-btn{display:inline-block;margin-top:14px;background:var(--teal);color:#fff;font-weight:700;padding:11px 22px;border-radius:999px;text-decoration:none}
+.loc .dir-btn:hover{background:var(--teal2)}
+/* ---------- hype ---------- */
+.hype{background:linear-gradient(135deg,var(--teal2),var(--navy));color:#fff;border-radius:18px;padding:36px;text-align:center;margin:44px 0}
+.hype .stars{margin:0 0 10px}
+.hype h2{color:#ffd166}
+.hype p{max-width:560px;margin:10px auto 0;color:#dcebee;font-size:1.05em}
+/* ---------- footer ---------- */
+footer{background:var(--navy);color:#8fa5ad;text-align:center;padding:34px 20px;font-size:.9em}
+footer .fname{color:#ffd166;font-weight:800;font-size:1.1em;margin-bottom:6px}
+footer a{color:#dcebee}
+.demo-note{background:#fff3cd;border:1px solid #ffc107;border-radius:10px;padding:14px 18px;margin:34px auto 0;max-width:960px;font-size:.88em;text-align:center;color:#5d4a1f}
+/* ---------- sticky bar ---------- */
+.sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#d92635,var(--red2));padding:15px;text-align:center;z-index:100}
+.sticky-bar a{color:#fff;text-decoration:none;font-weight:800;font-size:1.15em}
+@media(max-width:640px){
+  .sticky-bar{display:block}
+  body{padding-bottom:60px}
+  .order-form{grid-template-columns:1fr}
+  .container{padding:36px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-badge">DEMO CONCEPT</div>
+
+<div class="hero">
+  <div class="kicker">🏆 ONE OF THRILLIST'S 21 BEST DINERS IN AMERICA</div>
+  <h1>Travis <span class="accent">Coffee Shop</span></h1>
+  <div class="stars">★★★★☆ <span>4.3 · 1,833 reviews</span></div>
+  <p class="tag">St. Clair Shores' classic slider joint — breakfast all day, coffee always on.</p>
+  <div><span class="open-now" id="openBadge">Checking hours…</span></div>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#order">🍔 Order for Pickup</a>
+    <a class="btn btn-ghost" href="#visit">📍 Visit Us</a>
+  </div>
+</div>
+
+<div class="container">
+  <h2 id="menu">Menu</h2>
+  <p class="sec-sub">Hand-made sliders griddled with onions, big cheap breakfasts, and shakes — the way it's been done for decades.</p>
+
+  <div class="menu-cat">🍔 Sliders &amp; Burgers</div>
+  <div class="menu">
+    <div class="card"><h3>Cheeseburger Sliders (6)</h3><div class="price">$14.00</div><p>The famous six-pack — hand-made sliders with grilled onions &amp; pickles. The order Travis is known for.</p><button class="add" data-name="Cheeseburger Sliders (6)" data-price="14.00">Add to Order</button></div>
+    <div class="card"><h3>Hamburger Sliders (6)</h3><div class="price">$12.00</div><p>Six classic sliders, griddled fresh with onions. Simple, greasy, perfect.</p><button class="add" data-name="Hamburger Sliders (6)" data-price="12.00">Add to Order</button></div>
+    <div class="card"><h3>Mr. 5x5 Burger</h3><div class="price">$6.30</div><p>The signature smashburger regulars swear by — stacked, juicy, done right.</p><button class="add" data-name="Mr. 5x5 Burger" data-price="6.30">Add to Order</button></div>
+    <div class="card"><h3>Single Slider</h3><div class="price">$3.00</div><p>One cheeseburger slider — or a hamburger for $2.80. Start with three, thank us later.</p><button class="add" data-name="Single Cheeseburger Slider" data-price="3.00">Add to Order</button></div>
+    <div class="card"><h3>Patty Melt (1/4 lb)</h3><div class="price">$7.20</div><p>With sweet grilled onions on rye — a Metro Times burger-roundup kind of melt.</p><button class="add" data-name="Patty Melt (1/4 lb)" data-price="7.20">Add to Order</button></div>
+    <div class="card"><h3>Bacon Cheeseburger (1/4 lb)</h3><div class="price">$6.90</div><p>Quarter-pounder with crispy bacon &amp; melted cheese.</p><button class="add" data-name="Bacon Cheeseburger (1/4 lb)" data-price="6.90">Add to Order</button></div>
+    <div class="card"><h3>Mushroom &amp; Swiss Burger (1/4 lb)</h3><div class="price">$6.90</div><p>Loaded with mushrooms under a blanket of Swiss.</p><button class="add" data-name="Mushroom & Swiss Burger (1/4 lb)" data-price="6.90">Add to Order</button></div>
+    <div class="card"><h3>Cheeseburger (1/4 lb)</h3><div class="price">$5.00</div><p>The full-size classic, cooked like a burger should be cooked.</p><button class="add" data-name="Cheeseburger (1/4 lb)" data-price="5.00">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🍳 Breakfast — Served All Day</div>
+  <div class="menu">
+    <div class="card"><h3>Hungryman's Breakfast</h3><div class="price">$13.00</div><p>The big one — eggs, a generous pile of breakfast meats, hash browns &amp; toast. Bring an appetite.</p><button class="add" data-name="Hungryman's Breakfast" data-price="13.00">Add to Order</button></div>
+    <div class="card"><h3>Breakfast Special</h3><div class="price">$9.75</div><p>Farm-fresh eggs any style, hash browns, toast &amp; jelly, with your choice of ham, bacon, sausage or hamburger patties.</p><button class="add" data-name="Breakfast Special" data-price="9.75">Add to Order</button></div>
+    <div class="card"><h3>Super Breakfast</h3><div class="price">$11.00</div><p>Bacon, ham &amp; a spicy sausage patty with eggs, hash browns &amp; toast. A local legend.</p><button class="add" data-name="Super Breakfast" data-price="11.00">Add to Order</button></div>
+    <div class="card"><h3>Travis Skillet</h3><div class="price">$12.80</div><p>Hash browns loaded with ham, sausage, bacon &amp; cheddar, topped with two eggs &amp; sausage gravy.</p><button class="add" data-name="Travis Skillet" data-price="12.80">Add to Order</button></div>
+    <div class="card"><h3>Steak &amp; Eggs</h3><div class="price">$14.90</div><p>A 6 oz top sirloin with eggs any style, potatoes &amp; toast. Saturday morning, handled.</p><button class="add" data-name="Steak & Eggs" data-price="14.90">Add to Order</button></div>
+    <div class="card"><h3>Two Eggs Plate</h3><div class="price">$6.50</div><p>Two eggs with golden hash browns, toast &amp; jelly. Honest food, honest price.</p><button class="add" data-name="Two Eggs, Hash Browns, Toast & Jelly" data-price="6.50">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🍟 Sides &amp; Diner Classics</div>
+  <div class="menu">
+    <div class="card"><h3>French Fries</h3><div class="price">$4.50</div><p>Crispy &amp; golden — ask for the homemade ranch on the side. Trust us.</p><button class="add" data-name="French Fries" data-price="4.50">Add to Order</button></div>
+    <div class="card"><h3>Onion Rings</h3><div class="price">$4.95</div><p>Thick-cut, battered &amp; fried up right.</p><button class="add" data-name="Onion Rings" data-price="4.95">Add to Order</button></div>
+    <div class="card"><h3>Chili Cheese Fries</h3><div class="price">$7.85</div><p>Fries buried under Travis chili &amp; melted cheese.</p><button class="add" data-name="Chili Cheese Fries" data-price="7.85">Add to Order</button></div>
+    <div class="card"><h3>Mozzarella Sticks (5)</h3><div class="price">$7.00</div><p>Golden-fried with that proper cheese pull.</p><button class="add" data-name="Mozzarella Sticks (5)" data-price="7.00">Add to Order</button></div>
+    <div class="card"><h3>Coney Island</h3><div class="price">$4.60</div><p>A proper Detroit coney — chili, mustard, onions.</p><button class="add" data-name="Coney Island" data-price="4.60">Add to Order</button></div>
+    <div class="card"><h3>Club Sandwich</h3><div class="price">$10.90</div><p>The stacked diner classic, cut in fours with pickles.</p><button class="add" data-name="Club Sandwich" data-price="10.90">Add to Order</button></div>
+    <div class="card"><h3>B.L.T. Sandwich</h3><div class="price">$7.40</div><p>Crispy bacon, lettuce &amp; tomato on toast with mayo.</p><button class="add" data-name="B.L.T. Sandwich" data-price="7.40">Add to Order</button></div>
+    <div class="card"><h3>Grilled Cheese</h3><div class="price">$4.10</div><p>Griddled golden — the late-night favorite.</p><button class="add" data-name="Grilled Cheese Sandwich" data-price="4.10">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">☕ Coffee &amp; Shakes</div>
+  <div class="menu">
+    <div class="card"><h3>Milk Shake</h3><div class="price">$5.00</div><p>Homemade the old way — chocolate, vanilla or strawberry. Thick enough to need the spoon.</p><button class="add" data-name="Milk Shake" data-price="5.00">Add to Order</button></div>
+    <div class="card"><h3>Diner Coffee</h3><div class="price">$2.25</div><p>Hot, fresh &amp; always on. It's called a coffee shop for a reason.</p><button class="add" data-name="Diner Coffee" data-price="2.25">Add to Order</button></div>
+    <div class="card"><h3>Soft Drink</h3><div class="price">$2.50</div><p>Ice-cold fountain classics.</p><button class="add" data-name="Soft Drink" data-price="2.50">Add to Order</button></div>
+  </div>
+
+  <div class="order-panel" id="order">
+    <h2>🛎️ Your Pickup Order</h2>
+    <p class="sec-sub">Pick your items, place the order, and we'll have it hot at the counter.</p>
+    <ul id="orderList"></ul>
+    <p class="empty-note" id="emptyNote">Your tray is empty — add some sliders from the menu above.</p>
+    <div id="orderTotal" style="display:none">Total: $<span id="totalAmt">0.00</span></div>
+    <div class="order-form" id="orderForm" style="display:none">
+      <input type="text" id="custName" placeholder="Your name">
+      <input type="tel" id="custPhone" placeholder="Phone number">
+    </div>
+    <button class="place-btn" id="placeBtn" style="display:none">Place Order for Pickup</button>
+    <div class="confirm" id="confirmBox">
+      <div class="big">🍔</div>
+      <h3>Order received!</h3>
+      <p id="confirmText">Order received! We'll have it hot and ready at the counter in about 15 minutes. Show this screen when you come in.</p>
+    </div>
+  </div>
+
+  <div class="hype">
+    <div class="stars">★★★★★</div>
+    <h2>One of America's Best Diners</h2>
+    <p><strong>Thrillist</strong> named Travis one of the <strong>21 best diners in America</strong> — and <strong>Metro Times</strong> keeps its burgers in the local roundup. Teal booths, a long counter, sliders at any hour: this is the real thing, not a recreation.</p>
+  </div>
+
+  <h2 id="visit">Visit Us</h2>
+  <p class="sec-sub">On Greater Mack in St. Clair Shores — free parking, counter seats, and the coffee's always on.</p>
+  <div class="locs">
+    <div class="loc">
+      <h3>🍽️ Travis Coffee Shop</h3>
+      <p>📍 23500 Greater Mack Ave<br>St. Clair Shores, MI 48080</p>
+      <p>📞 <a class="call" href="tel:+15867780101">(586) 778-0101</a></p>
+      <p class="hours">🕐 Open 24 Hours · Mon–Sat<br>Sunday until 10:00 PM (cleaning)<br>Breakfast served all day</p>
+      <a class="dir-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Travis+Coffee+Shop+23500+Greater+Mack+Ave+St+Clair+Shores+MI+48080" target="_blank" rel="noopener">🧭 Get Directions</a>
+    </div>
+  </div>
+
+  <div class="demo-note">💡 <strong>Demo concept website created by Launchly.</strong> This is a sample design — not the business's real website. Menu items, prices and hours shown are samples.</div>
+</div>
+
+<div class="sticky-bar"><a href="#order">🍔 Order for Pickup</a></div>
+
+<footer>
+  <div class="fname">Travis Coffee Shop</div>
+  <div>23500 Greater Mack Ave, St. Clair Shores, MI 48080 · 📞 <a href="tel:+15867780101">(586) 778-0101</a></div>
+</footer>
+
+<script>
+var order=[];
+function fmt(n){return n.toFixed(2)}
+function render(){
+  var list=document.getElementById('orderList');
+  list.innerHTML='';
+  var total=0;
+  order.forEach(function(it,i){
+    total+=it.price;
+    var li=document.createElement('li');
+    li.innerHTML='<span>'+it.name+'</span><span>$'+fmt(it.price)+' <button class="rm" data-i="'+i+'" aria-label="remove">×</button></span>';
+    list.appendChild(li);
+  });
+  var has=order.length>0;
+  document.getElementById('emptyNote').style.display=has?'none':'block';
+  document.getElementById('orderTotal').style.display=has?'block':'none';
+  document.getElementById('orderForm').style.display=has?'grid':'none';
+  document.getElementById('placeBtn').style.display=has?'block':'none';
+  document.getElementById('totalAmt').textContent=fmt(total);
+  document.querySelectorAll('.rm').forEach(function(b){
+    b.onclick=function(){order.splice(parseInt(b.getAttribute('data-i')),1);render();};
+  });
+}
+document.querySelectorAll('.add').forEach(function(btn){
+  btn.onclick=function(){
+    order.push({name:btn.getAttribute('data-name'),price:parseFloat(btn.getAttribute('data-price'))});
+    btn.textContent='Added ✓';btn.classList.add('added');
+    setTimeout(function(){btn.textContent='Add to Order';btn.classList.remove('added');},1200);
+    render();
+  };
+});
+document.getElementById('placeBtn').onclick=function(){
+  var name=document.getElementById('custName').value.trim();
+  if(!name){alert('Please enter your name so we know whose order it is!');return;}
+  var total=document.getElementById('totalAmt').textContent;
+  document.getElementById('confirmText').textContent='Thanks '+name+'! Your $'+total+' order is in — we\'ll have it hot and ready at the counter in about 15 minutes. Show this screen when you come in.';
+  document.getElementById('orderList').style.display='none';
+  document.getElementById('orderTotal').style.display='none';
+  document.getElementById('orderForm').style.display='none';
+  document.getElementById('placeBtn').style.display='none';
+  document.getElementById('emptyNote').style.display='none';
+  document.getElementById('confirmBox').style.display='block';
+  document.getElementById('confirmBox').scrollIntoView({behavior:'smooth',block:'center'});
+};
+/* open-now badge (America/Detroit) — open 24h Mon–Sat, Sun closes 10 PM for cleaning */
+try{
+  var now=new Date(new Date().toLocaleString('en-US',{timeZone:'America/Detroit'}));
+  var d=now.getDay(),h=now.getHours()+now.getMinutes()/60;
+  var isOpen=!(d===0&&h>=22);
+  var b=document.getElementById('openBadge');
+  b.textContent=isOpen?'● Open Now — 24 Hours':'● Closed for Cleaning — Back at Midnight';
+  b.classList.add(isOpen?'open':'closed');
+}catch(e){}
+render();
+</script>
+</body>
+</html>
