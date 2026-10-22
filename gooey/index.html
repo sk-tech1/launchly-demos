@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gooey — Manchester | Giant Cookies, Donuts &amp; Brunch</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --choc:#3b2314; --choc2:#54301c; --pink:#d6336c; --pink2:#b02557;
+  --softpink:#f783ac; --caramel:#e8a04c; --cream:#fff7ee; --cream2:#fdeeda;
+  --ink:#40260f; --muted:#9a7a5c;
+}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+/* ---------- demo badge (outer frame only) ---------- */
+.demo-badge{position:fixed;top:12px;right:12px;z-index:999;background:#3b2314;color:#f8c471;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:8px 14px;border-radius:999px;border:1px solid #f8c471;opacity:.92}
+/* ---------- hero ---------- */
+.hero{background:linear-gradient(135deg,#ff8fab 0%,#f06595 38%,#a8512e 78%,#54301c 100%);color:#fff;padding:90px 20px 60px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'🍪';position:absolute;font-size:15em;opacity:.14;top:-30px;left:-20px;transform:rotate(-18deg)}
+.hero::after{content:'🍩';position:absolute;font-size:12em;opacity:.14;bottom:-40px;right:-10px;transform:rotate(14deg)}
+.hero .kicker{display:inline-block;background:#fff;color:var(--pink2);font-weight:800;font-size:12px;letter-spacing:2px;padding:7px 18px;border-radius:999px;margin-bottom:18px;position:relative;z-index:1}
+.hero h1{font-size:clamp(2.6em,7vw,4em);font-weight:900;line-height:1.05;text-shadow:0 3px 18px rgba(84,30,10,.45);position:relative;z-index:1}
+.hero h1 .accent{color:#ffe3ec;text-decoration:underline wavy #ffd43b 4px;text-underline-offset:8px}
+.hero .tag{font-size:1.15em;margin-top:14px;opacity:.96;position:relative;z-index:1}
+.stars{color:#ffd43b;font-size:1.15em;margin:10px 0 4px;position:relative;z-index:1}
+.stars span{color:#fff;font-size:.85em}
+.open-now{display:inline-block;margin-top:12px;padding:8px 22px;border-radius:25px;font-weight:bold;font-size:.95em;position:relative;z-index:1}
+.open{background:#2e7d32;color:#fff}.closed{background:#6d4c41;color:#fff}
+.cta-row{margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+.btn{display:inline-block;font-weight:800;padding:15px 36px;border-radius:999px;text-decoration:none;font-size:1.05em;transition:transform .15s}
+.btn-primary{background:var(--choc);color:#fff;box-shadow:0 6px 24px rgba(59,35,20,.5)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.18);color:#fff;border:2px solid rgba(255,255,255,.65)}
+.btn-ghost:hover{background:rgba(255,255,255,.28)}
+/* ---------- sections ---------- */
+.container{max-width:960px;margin:0 auto;padding:48px 20px}
+h2{font-size:1.9em;margin-bottom:6px;color:var(--pink2)}
+.sec-sub{color:var(--muted);margin-bottom:26px;font-size:1.02em}
+.menu-cat{font-size:1.25em;font-weight:800;color:var(--choc);margin:30px 0 14px;display:flex;align-items:center;gap:10px}
+.menu-cat::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--softpink),transparent)}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 14px rgba(120,60,20,.10);border-top:4px solid var(--softpink);display:flex;flex-direction:column}
+.card.brunch{border-top-color:var(--caramel)}
+.card h3{font-size:1.08em;margin-bottom:2px}
+.card .price{color:var(--pink);font-weight:800;font-size:1.2em;margin:4px 0}
+.card p{font-size:.9em;color:var(--muted);flex:1}
+.card .tag-chip{align-self:flex-start;margin-top:10px;background:var(--cream2);color:var(--choc2);font-size:.78em;font-weight:700;padding:5px 12px;border-radius:999px}
+.card .add{margin-top:12px;background:var(--choc);color:#fff;border:none;font-weight:700;padding:10px;border-radius:10px;cursor:pointer;font-size:.95em}
+.card .add:hover{background:var(--pink2)}
+.card .add.added{background:#2e7d32}
+/* ---------- order panel ---------- */
+.order-panel{background:var(--choc);color:#fff;border-radius:18px;padding:32px;margin:44px 0;box-shadow:0 10px 40px rgba(59,35,20,.4)}
+.order-panel h2{color:#f8c471;margin-bottom:4px}
+.order-panel .sec-sub{color:#d9b48c}
+#orderList{list-style:none;margin:18px 0}
+#orderList li{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed #7a5638;font-size:.98em}
+#orderList .rm{background:none;border:none;color:#f783ac;cursor:pointer;font-size:1.1em;font-weight:700}
+#orderTotal{font-size:1.35em;font-weight:800;text-align:right;margin:8px 0 18px;color:#f8c471}
+.order-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.order-form input,.order-form select{background:#54301c;border:1px solid #7a5638;color:#fff;padding:13px 16px;border-radius:10px;font-size:1em;width:100%}
+.order-form input::placeholder{color:#bd9a72}
+.order-form select{grid-column:1/-1}
+.place-btn{width:100%;background:linear-gradient(135deg,var(--softpink),var(--pink));color:#fff;border:none;font-weight:800;font-size:1.15em;padding:16px;border-radius:14px;cursor:pointer}
+.place-btn:hover{filter:brightness(1.08)}
+.confirm{display:none;text-align:center;padding:20px 0}
+.confirm .big{font-size:3em;margin-bottom:10px}
+.confirm h3{color:#f8c471;font-size:1.5em;margin-bottom:8px}
+.confirm p{color:#f3ddc2;max-width:440px;margin:0 auto}
+.empty-note{color:#bd9a72;text-align:center;padding:18px 0;font-style:italic}
+/* ---------- locations ---------- */
+.locs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.loc{background:#fff;border-radius:14px;padding:26px;box-shadow:0 2px 14px rgba(120,60,20,.10)}
+.loc h3{color:var(--pink2);margin-bottom:8px;font-size:1.2em}
+.loc p{margin:6px 0;color:var(--ink)}
+.loc .hours{color:var(--muted);font-size:.93em}
+/* ---------- hype ---------- */
+.hype{background:linear-gradient(135deg,var(--pink2),#7c1d3f);color:#fff;border-radius:18px;padding:36px;text-align:center;margin:44px 0}
+.hype .bignum{font-size:2.6em;font-weight:900;color:#ffd43b;line-height:1}
+.hype h2{color:#fff;margin-top:6px}
+.hype p{max-width:560px;margin:10px auto 0;color:#ffd9e5;font-size:1.05em}
+/* ---------- footer ---------- */
+footer{background:var(--choc);color:#bd9a72;text-align:center;padding:34px 20px;font-size:.9em}
+footer .fname{color:#f8c471;font-weight:800;font-size:1.1em;margin-bottom:6px}
+footer a{color:#f8c471;text-decoration:none;font-weight:700}
+.demo-note{background:#fff3cd;border:1px solid #ffc107;border-radius:10px;padding:14px 18px;margin:34px auto 0;max-width:960px;font-size:.88em;text-align:center;color:#5d4a1f}
+/* ---------- sticky bar ---------- */
+.sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--softpink),var(--pink));padding:15px;text-align:center;z-index:100}
+.sticky-bar a{color:#fff;text-decoration:none;font-weight:800;font-size:1.15em}
+@media(max-width:640px){
+  .sticky-bar{display:block}
+  body{padding-bottom:60px}
+  .order-form{grid-template-columns:1fr}
+  .container{padding:36px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-badge">DEMO CONCEPT</div>
+
+<div class="hero">
+  <div class="kicker">🍪 MANCHESTER'S GOOEY OBSESSION</div>
+  <h1>Gooey<span class="accent">.</span></h1>
+  <div class="stars">★★★★★ <span>4.5 · 1,300+ reviews</span></div>
+  <p class="tag">Giant warm cookies, stuffed brioche donuts &amp; the French toast worth queuing for.</p>
+  <div><span class="open-now" id="openBadge">Checking hours…</span></div>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#order">🍪 Build a Cookie Box</a>
+    <a class="btn btn-ghost" href="#locations">📍 Find Us</a>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Menu</h2>
+  <p class="sec-sub">Baked fresh every morning. Cookies are best eaten warm — and the donuts sell out most days, so order ahead.</p>
+
+  <div class="menu-cat">🍪 Giant Cookies</div>
+  <div class="menu">
+    <div class="card"><h3>Milk Chocolate Chip</h3><div class="price">£3.95</div><p>The original — crisp edges, molten milk-choc middle. Best warm.</p><button class="add" data-name="Milk Chocolate Chip Cookie" data-price="3.95">Add to Box</button></div>
+    <div class="card"><h3>Double Chocolate</h3><div class="price">£3.95</div><p>Dark cocoa dough loaded with milk &amp; white choc chunks.</p><button class="add" data-name="Double Chocolate Cookie" data-price="3.95">Add to Box</button></div>
+    <div class="card"><h3>White Chocolate &amp; Macadamia</h3><div class="price">£3.95</div><p>Buttery dough, creamy white choc, crunchy macadamia.</p><button class="add" data-name="White Chocolate & Macadamia Cookie" data-price="3.95">Add to Box</button></div>
+    <div class="card"><h3>Dark Chocolate &amp; Sea Salt</h3><div class="price">£3.95</div><p>Rich, soft-centred dark choc with a sea-salt finish.</p><button class="add" data-name="Dark Chocolate & Sea Salt Cookie" data-price="3.95">Add to Box</button></div>
+    <div class="card"><h3>Kinder Bueno Cookie</h3><div class="price">£4.25</div><p>Stuffed with hazelnut cream and topped with Bueno pieces.</p><button class="add" data-name="Kinder Bueno Cookie" data-price="4.25">Add to Box</button></div>
+    <div class="card"><h3>Biscoff-Stuffed Cookie</h3><div class="price">£4.25</div><p>A molten Biscoff centre hiding inside a golden cookie.</p><button class="add" data-name="Biscoff-Stuffed Cookie" data-price="4.25">Add to Box</button></div>
+  </div>
+
+  <div class="menu-cat">🍩 Brioche Donuts &amp; Bakes</div>
+  <div class="menu">
+    <div class="card"><h3>Raspberry Jam Donut</h3><div class="price">£3.95</div><p>Sugar-coated brioche stuffed with sharp raspberry jam.</p><button class="add" data-name="Raspberry Jam Donut" data-price="3.95">Add to Box</button></div>
+    <div class="card"><h3>Vanilla Custard Donut</h3><div class="price">£3.95</div><p>Pillowy brioche bursting with vanilla custard.</p><button class="add" data-name="Vanilla Custard Donut" data-price="3.95">Add to Box</button></div>
+    <div class="card"><h3>Chocolate Custard Donut</h3><div class="price">£3.95</div><p>Filled to the brim with silky chocolate custard.</p><button class="add" data-name="Chocolate Custard Donut" data-price="3.95">Add to Box</button></div>
+    <div class="card"><h3>Kinder Bueno Donut</h3><div class="price">£4.25</div><p>The collab favourite — hazelnut cream filling, Bueno on top.</p><button class="add" data-name="Kinder Bueno Donut" data-price="4.25">Add to Box</button></div>
+    <div class="card"><h3>Cinnamon Roll</h3><div class="price">£4.25</div><p>Swirled, sticky and unapologetically gooey.</p><button class="add" data-name="Cinnamon Roll" data-price="4.25">Add to Box</button></div>
+    <div class="card"><h3>Cookie Box of 4</h3><div class="price">£14.95</div><p>Any four cookies, boxed and ready to gift (or not).</p><button class="add" data-name="Cookie Box of 4" data-price="14.95">Add to Box</button></div>
+    <div class="card"><h3>Cookie Box of 6</h3><div class="price">£20.95</div><p>The full line-up — six cookies, zero regrets.</p><button class="add" data-name="Cookie Box of 6" data-price="20.95">Add to Box</button></div>
+  </div>
+
+  <div class="menu-cat">☕ Coffee &amp; Drinks</div>
+  <div class="menu">
+    <div class="card"><h3>Flat White</h3><div class="price">£3.40</div><p>Proper coffee to cut through the gooey.</p><button class="add" data-name="Flat White" data-price="3.40">Add to Box</button></div>
+    <div class="card"><h3>Cappuccino</h3><div class="price">£3.60</div><p>Classic, frothy, dusted.</p><button class="add" data-name="Cappuccino" data-price="3.60">Add to Box</button></div>
+    <div class="card"><h3>Hot Chocolate</h3><div class="price">£3.80</div><p>Rich and thick — a pudding in a cup.</p><button class="add" data-name="Hot Chocolate" data-price="3.80">Add to Box</button></div>
+  </div>
+
+  <div class="menu-cat">🥞 Brunch — All Day (Northern Quarter Café)</div>
+  <div class="menu">
+    <div class="card brunch"><h3>Gooey French Toast</h3><div class="price">£9.50</div><p>House brioche, crème pâtissière, dulce de leche, maple syrup &amp; salted butter. Please allow up to 20 mins — it's 200% worth the wait.</p><span class="tag-chip">☕ Café only</span></div>
+    <div class="card brunch"><h3>Egg Sandwich</h3><div class="price">£7.50</div><p>Kewpie egg mayo, soft egg &amp; gem lettuce on toasted shokupan.</p><span class="tag-chip">☕ Café only</span></div>
+    <div class="card brunch"><h3>Bacon Sandwich</h3><div class="price">£8.00</div><p>Black-pepper cured bacon with house red or brown sauce on shokupan. Add a fried Burford Brown egg +£1.50.</p><span class="tag-chip">☕ Café only</span></div>
+    <div class="card brunch"><h3>Avocado Toast</h3><div class="price">£9.50</div><p>Avocado, chilli-spiced cashew, soft egg &amp; pickled beets on chia &amp; turmeric brioche.</p><span class="tag-chip">☕ Café only</span></div>
+    <div class="card brunch"><h3>Mushroom Toast (v)</h3><div class="price">£8.95</div><p>Pan-fried wild mushrooms, roast cashew &amp; black garlic cream, spinach on brioche.</p><span class="tag-chip">☕ Café only</span></div>
+    <div class="card brunch"><h3>Granola with Poached Fruit</h3><div class="price">£6.50</div><p>Seasonal fruit, cashew &amp; almond granola, Greek yoghurt, agave &amp; candied lime.</p><span class="tag-chip">☕ Café only</span></div>
+  </div>
+
+  <div class="order-panel" id="order">
+    <h2>🍪 Build Your Box</h2>
+    <p class="sec-sub">Tap "Add to Box" on your favourites above, then order ahead and skip the queue.</p>
+    <ul id="orderList"></ul>
+    <p class="empty-note" id="emptyNote">Your box is empty — add something gooey from the menu above.</p>
+    <div id="orderTotal" style="display:none">Total: £<span id="totalAmt">0.00</span></div>
+    <div class="order-form" id="orderForm" style="display:none">
+      <input type="text" id="custName" placeholder="Your name">
+      <input type="tel" id="custPhone" placeholder="Mobile number">
+      <select id="pickupLoc">
+        <option value="Northern Quarter Café, High Street">Pickup: Northern Quarter Café — 103 High St</option>
+        <option value="Ducie Street Kiosk">Pickup: Ducie Street Kiosk</option>
+        <option value="Liverpool Bold Street Kiosk">Pickup: Liverpool — Bold Street Kiosk</option>
+      </select>
+    </div>
+    <button class="place-btn" id="placeBtn" style="display:none">Order for Pickup</button>
+    <div class="confirm" id="confirmBox">
+      <div class="big">🍪</div>
+      <h3>Order received!</h3>
+      <p id="confirmText">Your box will be ready for pickup in about 20 minutes. Show this screen at the counter.</p>
+    </div>
+  </div>
+
+  <div class="hype">
+    <div class="bignum">98,600</div>
+    <h2>followers can't be wrong</h2>
+    <p>The queues down High Street say the rest — Gooey's giant cookies and stuffed donuts have become a Manchester ritual, with fans including <strong>Lizzo</strong>. Order ahead and walk straight past the line.</p>
+  </div>
+
+  <h2 id="locations">Find Us</h2>
+  <p class="sec-sub">Three spots, one obsession. Donuts sell out most days — when they're gone, they're gone.</p>
+  <div class="locs">
+    <div class="loc">
+      <h3>☕ Northern Quarter Café</h3>
+      <p>📍 103 High Street<br>Manchester M4 1HQ</p>
+      <p class="hours">🕐 Open daily · 9:00 AM – 6:00 PM<br>Cookies, donuts &amp; full brunch menu</p>
+    </div>
+    <div class="loc">
+      <h3>🍩 Ducie Street Kiosk</h3>
+      <p>📍 Ducie Street Warehouse<br>Manchester M1 2TP</p>
+      <p class="hours">🕐 Wed–Fri · 12:00 – 6:00 PM<br>Sat–Sun · 10:30 AM – 6:00 PM<br>Closed Mon &amp; Tue</p>
+    </div>
+    <div class="loc">
+      <h3>🍪 Liverpool Kiosk</h3>
+      <p>📍 Bold Street<br>Liverpool L1 4BW</p>
+      <p class="hours">🕐 Open daily · 10:00 AM – 6:00 PM<br>Cookies &amp; donuts to go</p>
+    </div>
+  </div>
+
+  <div class="demo-note">💡 <strong>Demo concept website created by Launchly.</strong> This is a sample design — not the business's real website. Menu items, prices and hours shown are samples.</div>
+</div>
+
+<div class="sticky-bar"><a href="#order">🍪 Build Your Box</a></div>
+
+<footer>
+  <div class="fname">Gooey</div>
+  <div>Manchester · Liverpool · 📞 <a href="tel:+447399775196">07399 775196</a> · 📸 @gooeyco</div>
+</footer>
+
+<script>
+var order=[];
+function fmt(n){return n.toFixed(2)}
+function render(){
+  var list=document.getElementById('orderList');
+  list.innerHTML='';
+  var total=0;
+  order.forEach(function(it,i){
+    total+=it.price;
+    var li=document.createElement('li');
+    li.innerHTML='<span>'+it.name+'</span><span>£'+fmt(it.price)+' <button class="rm" data-i="'+i+'" aria-label="remove">×</button></span>';
+    list.appendChild(li);
+  });
+  var has=order.length>0;
+  document.getElementById('emptyNote').style.display=has?'none':'block';
+  document.getElementById('orderTotal').style.display=has?'block':'none';
+  document.getElementById('orderForm').style.display=has?'grid':'none';
+  document.getElementById('placeBtn').style.display=has?'block':'none';
+  document.getElementById('totalAmt').textContent=fmt(total);
+  document.querySelectorAll('.rm').forEach(function(b){
+    b.onclick=function(){order.splice(parseInt(b.getAttribute('data-i')),1);render();};
+  });
+}
+document.querySelectorAll('.add').forEach(function(btn){
+  btn.onclick=function(){
+    order.push({name:btn.getAttribute('data-name'),price:parseFloat(btn.getAttribute('data-price'))});
+    btn.textContent='Added ✓';btn.classList.add('added');
+    setTimeout(function(){btn.textContent='Add to Box';btn.classList.remove('added');},1200);
+    render();
+  };
+});
+document.getElementById('placeBtn').onclick=function(){
+  var name=document.getElementById('custName').value.trim();
+  if(!name){alert('Please enter your name so we know whose box it is!');return;}
+  var phone=document.getElementById('custPhone').value.trim();
+  var loc=document.getElementById('pickupLoc').value;
+  var total=document.getElementById('totalAmt').textContent;
+  var msg='Thanks '+name+'! Your £'+total+' order is confirmed. Your box will be ready for pickup at the '+loc+' in about 20 minutes.';
+  if(phone){msg+=' We\'ll text you at '+phone+' when it\'s ready.';}
+  msg+=' Show this screen at the counter — see you soon!';
+  document.getElementById('confirmText').textContent=msg;
+  document.getElementById('orderList').style.display='none';
+  document.getElementById('orderTotal').style.display='none';
+  document.getElementById('orderForm').style.display='none';
+  document.getElementById('placeBtn').style.display='none';
+  document.getElementById('emptyNote').style.display='none';
+  document.getElementById('confirmBox').style.display='block';
+  document.getElementById('confirmBox').scrollIntoView({behavior:'smooth',block:'center'});
+};
+/* open-now badge (Europe/London, Northern Quarter café hours: daily 9–18) */
+try{
+  var now=new Date(new Date().toLocaleString('en-US',{timeZone:'Europe/London'}));
+  var h=now.getHours()+now.getMinutes()/60;
+  var isOpen=(h>=9&&h<18);
+  var b=document.getElementById('openBadge');
+  b.textContent=isOpen?'● Open Now':'● Currently Closed';
+  b.classList.add(isOpen?'open':'closed');
+}catch(e){}
+render();
+</script>
+</body>
+</html>
