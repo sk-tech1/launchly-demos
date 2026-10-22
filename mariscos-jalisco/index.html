@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mariscos Jalisco — Los Angeles</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --deep:#06323b; --deep2:#0a4550; --teal:#0e7c86; --aqua:#17a398;
+  --coral:#e4572e; --coral2:#c7431f; --sun:#ffb703; --cream:#fdf8ee; --cream2:#f7ecd4;
+  --ink:#17323a; --muted:#6d857f;
+}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+/* ---------- demo badge (outer frame only) ---------- */
+.demo-badge{position:fixed;top:12px;right:12px;z-index:999;background:#06323b;color:#ffb703;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:8px 14px;border-radius:999px;border:1px solid #ffb703;opacity:.92}
+/* ---------- hero ---------- */
+.hero{background:linear-gradient(160deg,rgba(6,50,59,.93) 0%,rgba(10,69,80,.82) 42%,rgba(14,124,134,.72) 78%,rgba(228,87,46,.55) 100%),radial-gradient(circle at 85% 12%,rgba(255,183,3,.5),transparent 45%),radial-gradient(circle at 8% 90%,rgba(23,163,152,.45),transparent 50%);color:#fff;padding:90px 20px 60px;text-align:center;position:relative}
+.hero .kicker{display:inline-block;background:var(--sun);color:#06323b;font-weight:800;font-size:12px;letter-spacing:2px;padding:7px 18px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-size:clamp(2.2em,6vw,3.6em);font-weight:900;line-height:1.1;text-shadow:0 3px 18px rgba(0,0,0,.45)}
+.hero h1 .accent{color:var(--sun)}
+.hero .tag{font-size:1.15em;margin-top:10px;opacity:.95}
+.stars{color:var(--sun);font-size:1.15em;margin:10px 0 4px}
+.stars span{color:#fff;font-size:.85em}
+.open-now{display:inline-block;margin-top:12px;padding:8px 22px;border-radius:25px;font-weight:bold;font-size:.95em}
+.open{background:#2e7d32;color:#fff}.closed{background:#5d4037;color:#fff}
+.cta-row{margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;font-weight:800;padding:15px 36px;border-radius:999px;text-decoration:none;font-size:1.05em;transition:transform .15s}
+.btn-primary{background:linear-gradient(135deg,var(--sun),var(--coral));color:#fff;box-shadow:0 6px 24px rgba(228,87,46,.45)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.6)}
+.btn-ghost:hover{background:rgba(255,255,255,.25)}
+/* ---------- sections ---------- */
+.container{max-width:960px;margin:0 auto;padding:48px 20px}
+h2{font-size:1.9em;margin-bottom:6px;color:var(--teal)}
+.sec-sub{color:var(--muted);margin-bottom:26px;font-size:1.02em}
+.menu-cat{font-size:1.25em;font-weight:800;color:var(--deep);margin:30px 0 14px;display:flex;align-items:center;gap:10px}
+.menu-cat::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--aqua),transparent)}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 14px rgba(6,50,59,.10);border-top:4px solid var(--aqua);display:flex;flex-direction:column}
+.card h3{font-size:1.08em;margin-bottom:2px}
+.card .price{color:var(--coral2);font-weight:800;font-size:1.2em;margin:4px 0}
+.card p{font-size:.9em;color:var(--muted);flex:1}
+.card .add{margin-top:12px;background:var(--deep);color:#fff;border:none;font-weight:700;padding:10px;border-radius:10px;cursor:pointer;font-size:.95em}
+.card .add:hover{background:var(--teal)}
+.card .add.added{background:#2e7d32}
+/* ---------- order panel ---------- */
+.order-panel{background:var(--deep);color:#fff;border-radius:18px;padding:32px;margin:44px 0;box-shadow:0 10px 40px rgba(6,50,59,.35)}
+.order-panel h2{color:var(--sun);margin-bottom:4px}
+.order-panel .sec-sub{color:#b8d4cf}
+#orderList{list-style:none;margin:18px 0}
+#orderList li{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed #2c5a63;font-size:.98em}
+#orderList .rm{background:none;border:none;color:var(--coral);cursor:pointer;font-size:1.1em;font-weight:700}
+#orderTotal{font-size:1.35em;font-weight:800;text-align:right;margin:8px 0 18px;color:var(--sun)}
+.order-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.order-form input{background:#0d3d47;border:1px solid #2c5a63;color:#fff;padding:13px 16px;border-radius:10px;font-size:1em;width:100%}
+.order-form input::placeholder{color:#7fa8ad}
+.place-btn{width:100%;background:linear-gradient(135deg,var(--sun),var(--coral));color:#fff;border:none;font-weight:800;font-size:1.15em;padding:16px;border-radius:14px;cursor:pointer}
+.place-btn:hover{filter:brightness(1.08)}
+.confirm{display:none;text-align:center;padding:20px 0}
+.confirm .big{font-size:3em;margin-bottom:10px}
+.confirm h3{color:var(--sun);font-size:1.5em;margin-bottom:8px}
+.confirm p{color:#d8ebe7;max-width:420px;margin:0 auto}
+.empty-note{color:#7fa8ad;text-align:center;padding:18px 0;font-style:italic}
+/* ---------- locations ---------- */
+.locs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.loc{background:#fff;border-radius:14px;padding:26px;box-shadow:0 2px 14px rgba(6,50,59,.10)}
+.loc h3{color:var(--teal);margin-bottom:8px;font-size:1.2em}
+.loc p{margin:6px 0;color:var(--ink)}
+.loc .hours{color:var(--muted);font-size:.93em}
+/* ---------- hype ---------- */
+.hype{background:linear-gradient(135deg,var(--teal),#0a5560);color:#fff;border-radius:18px;padding:36px;text-align:center;margin:44px 0}
+.hype .stars{margin:0 0 10px}
+.hype h2{color:var(--sun)}
+.hype p{max-width:560px;margin:10px auto 0;color:#d8ebe7;font-size:1.05em}
+/* ---------- footer ---------- */
+footer{background:var(--deep);color:#7fa8ad;text-align:center;padding:34px 20px;font-size:.9em}
+footer .fname{color:var(--sun);font-weight:800;font-size:1.1em;margin-bottom:6px}
+.demo-note{background:#fff3cd;border:1px solid #ffc107;border-radius:10px;padding:14px 18px;margin:34px auto 0;max-width:960px;font-size:.88em;text-align:center;color:#5d4a1f}
+/* ---------- sticky bar ---------- */
+.sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--sun),var(--coral));padding:15px;text-align:center;z-index:100}
+.sticky-bar a{color:#fff;text-decoration:none;font-weight:800;font-size:1.15em}
+@media(max-width:640px){
+  .sticky-bar{display:block}
+  body{padding-bottom:60px}
+  .order-form{grid-template-columns:1fr}
+  .container{padding:36px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-badge">DEMO CONCEPT</div>
+
+<div class="hero">
+  <div class="kicker">🏆 MICHELIN BIB GOURMAND</div>
+  <h1>Mariscos <span class="accent">Jalisco</span></h1>
+  <div class="stars">★★★★★ <span>4.6 · 1,900+ reviews</span></div>
+  <p class="tag">LA's legendary seafood truck — home of the tacos dorados de camarón.</p>
+  <div><span class="open-now" id="openBadge">Checking hours…</span></div>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#order">🦐 Order Now</a>
+    <a class="btn btn-ghost" href="#locations">📍 Find the Truck</a>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Menu</h2>
+  <p class="sec-sub">Jalisco-style mariscos — crispy, citrusy, spicy — made to order at the truck since 2001.</p>
+
+  <div class="menu-cat">🦐 Tacos &amp; Tostadas</div>
+  <div class="menu">
+    <div class="card"><h3>Tacos Dorados de Camarón (each)</h3><div class="price">$3.50</div><p>The legend — shrimp tacos dunked whole in bubbling oil until shatter-crisp, finished with tomato salsa &amp; avocado. Get at least three.</p><button class="add" data-name="Taco Dorado de Camarón" data-price="3.50">Add to Order</button></div>
+    <div class="card"><h3>Taco de Pescado</h3><div class="price">$4.50</div><p>Golden battered fish in a warm tortilla with crunchy cabbage &amp; chipotle crema.</p><button class="add" data-name="Taco de Pescado" data-price="4.50">Add to Order</button></div>
+    <div class="card"><h3>Poseidon Tostada</h3><div class="price">$16.99</div><p>The towering one — fresh ceviche, tender octopus &amp; zesty shrimp aguachile piled high on a crispy tostada.</p><button class="add" data-name="Poseidon Tostada" data-price="16.99">Add to Order</button></div>
+    <div class="card"><h3>Tostada Mixta</h3><div class="price">$14.99</div><p>Fish &amp; shrimp ceviche with octopus, cucumber, onion &amp; avocado on a crunchy tostada.</p><button class="add" data-name="Tostada Mixta" data-price="14.99">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🌶️ Aguachile &amp; Ceviche</div>
+  <div class="menu">
+    <div class="card"><h3>Aguachile Rojo (16 oz)</h3><div class="price">$19.99</div><p>Raw shrimp cured in lime &amp; fiery red chile, with cucumber, red onion &amp; avocado. Tostadas on the side — the spicier one.</p><button class="add" data-name="Aguachile Rojo (16 oz)" data-price="19.99">Add to Order</button></div>
+    <div class="card"><h3>Aguachile Verde (16 oz)</h3><div class="price">$19.99</div><p>The green version — bright, herby heat with shrimp, cucumber &amp; avocado. Tostadas included.</p><button class="add" data-name="Aguachile Verde (16 oz)" data-price="19.99">Add to Order</button></div>
+    <div class="card"><h3>Ceviche de Pescado</h3><div class="price">$13.99</div><p>Fresh fish cured in lime with tomato, onion &amp; cilantro. Simple, cold, perfect.</p><button class="add" data-name="Ceviche de Pescado" data-price="13.99">Add to Order</button></div>
+    <div class="card"><h3>Ceviche de Camarón</h3><div class="price">$14.99</div><p>Plump shrimp ceviche, same fresh cure — order it on a tostada or by the cup.</p><button class="add" data-name="Ceviche de Camarón" data-price="14.99">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🍹 Cocteles &amp; Drinks</div>
+  <div class="menu">
+    <div class="card"><h3>Coctel de Camarón</h3><div class="price">$16.99</div><p>Classic Mexican shrimp cocktail — tangy tomato-clam sauce, onion, cilantro &amp; avocado, served chilled.</p><button class="add" data-name="Coctel de Camarón" data-price="16.99">Add to Order</button></div>
+    <div class="card"><h3>Agua Fresca</h3><div class="price">$3.50</div><p>Horchata, jamaica or tamarindo — made fresh daily.</p><button class="add" data-name="Agua Fresca" data-price="3.50">Add to Order</button></div>
+    <div class="card"><h3>Jarritos / Mexican Coke</h3><div class="price">$3.00</div><p>Ice-cold classics.</p><button class="add" data-name="Jarritos / Mexican Coke" data-price="3.00">Add to Order</button></div>
+  </div>
+
+  <div class="order-panel" id="order">
+    <h2>🦐 Your Order</h2>
+    <p class="sec-sub">Pick your items, then place your order for pickup at the truck.</p>
+    <ul id="orderList"></ul>
+    <p class="empty-note" id="emptyNote">Your tray is empty — add something fresh from the menu above.</p>
+    <div id="orderTotal" style="display:none">Total: $<span id="totalAmt">0.00</span></div>
+    <div class="order-form" id="orderForm" style="display:none">
+      <input type="text" id="custName" placeholder="Your name">
+      <input type="tel" id="custPhone" placeholder="Phone number">
+    </div>
+    <button class="place-btn" id="placeBtn" style="display:none">Place Order for Pickup</button>
+    <div class="confirm" id="confirmBox">
+      <div class="big">🦐</div>
+      <h3>Order received!</h3>
+      <p id="confirmText">We'll have it fresh and ready for pickup in about 15 minutes. Show this screen at the truck window.</p>
+    </div>
+  </div>
+
+  <div class="hype">
+    <div class="stars">★★★★★</div>
+    <h2>The Critics' Favorite Truck</h2>
+    <p>A <strong>Michelin Bib Gourmand</strong> food truck. Jonathan Gold called the tacos dorados de camarón one of his favorite bites in LA — and a fixture of the LA Times 101 Best Restaurants list. No dining room, no fuss. Just the crispiest shrimp tacos in the city.</p>
+  </div>
+
+  <h2 id="locations">Find the Truck</h2>
+  <p class="sec-sub">Four locations across LA — hours are samples per truck; check Instagram for daily updates. The Boyle Heights truck is cash only.</p>
+  <div class="locs">
+    <div class="loc">
+      <h3>🚚 Boyle Heights — Original Truck</h3>
+      <p>📍 3040 E Olympic Blvd<br>Los Angeles, CA 90023</p>
+      <p>📞 (323) 528-6701</p>
+      <p class="hours">🕐 Daily · 9:00 AM – 5:30 PM<br>💵 Cash only</p>
+    </div>
+    <div class="loc">
+      <h3>🚚 Downtown Los Angeles</h3>
+      <p>📍 Downtown LA</p>
+      <p class="hours">🕐 Daily · 9:00 AM – 5:30 PM (sample hours)</p>
+    </div>
+    <div class="loc">
+      <h3>🚚 La Cienega</h3>
+      <p>📍 La Cienega Blvd area<br>Los Angeles, CA</p>
+      <p class="hours">🕐 Daily · 9:00 AM – 5:30 PM (sample hours)</p>
+    </div>
+    <div class="loc">
+      <h3>🚚 Pomona</h3>
+      <p>📍 Pomona, CA</p>
+      <p class="hours">🕐 Daily · 9:00 AM – 5:30 PM (sample hours)</p>
+    </div>
+  </div>
+
+  <div class="demo-note">💡 <strong>Demo concept website created by Launchly.</strong> This is a sample design — not the business's real website. Menu items, prices and hours shown are samples.</div>
+</div>
+
+<div class="sticky-bar"><a href="#order">🦐 Order Now</a></div>
+
+<footer>
+  <div class="fname">Mariscos Jalisco</div>
+  <div>Los Angeles, CA · 📞 (323) 528-6701 · 📸 @mariscosjalisco</div>
+</footer>
+
+<script>
+var order=[];
+function fmt(n){return n.toFixed(2)}
+function render(){
+  var list=document.getElementById('orderList');
+  list.innerHTML='';
+  var total=0;
+  order.forEach(function(it,i){
+    total+=it.price;
+    var li=document.createElement('li');
+    li.innerHTML='<span>'+it.name+'</span><span>$'+fmt(it.price)+' <button class="rm" data-i="'+i+'" aria-label="remove">×</button></span>';
+    list.appendChild(li);
+  });
+  var has=order.length>0;
+  document.getElementById('emptyNote').style.display=has?'none':'block';
+  document.getElementById('orderTotal').style.display=has?'block':'none';
+  document.getElementById('orderForm').style.display=has?'grid':'none';
+  document.getElementById('placeBtn').style.display=has?'block':'none';
+  document.getElementById('totalAmt').textContent=fmt(total);
+  document.querySelectorAll('.rm').forEach(function(b){
+    b.onclick=function(){order.splice(parseInt(b.getAttribute('data-i')),1);render();};
+  });
+}
+document.querySelectorAll('.add').forEach(function(btn){
+  btn.onclick=function(){
+    order.push({name:btn.getAttribute('data-name'),price:parseFloat(btn.getAttribute('data-price'))});
+    btn.textContent='Added ✓';btn.classList.add('added');
+    setTimeout(function(){btn.textContent='Add to Order';btn.classList.remove('added');},1200);
+    render();
+  };
+});
+document.getElementById('placeBtn').onclick=function(){
+  var name=document.getElementById('custName').value.trim();
+  if(!name){alert('Please enter your name so we know whose order it is!');return;}
+  var total=document.getElementById('totalAmt').textContent;
+  document.getElementById('confirmText').textContent='Thanks '+name+'! Your $'+total+' order will be fresh and ready for pickup in about 15 minutes. Show this screen at the truck window.';
+  document.getElementById('orderList').style.display='none';
+  document.getElementById('orderTotal').style.display='none';
+  document.getElementById('orderForm').style.display='none';
+  document.getElementById('placeBtn').style.display='none';
+  document.getElementById('emptyNote').style.display='none';
+  document.getElementById('confirmBox').style.display='block';
+  document.getElementById('confirmBox').scrollIntoView({behavior:'smooth',block:'center'});
+};
+/* open-now badge (America/Los_Angeles) — sample hours: daily 9:00 AM – 5:30 PM */
+try{
+  var now=new Date(new Date().toLocaleString('en-US',{timeZone:'America/Los_Angeles'}));
+  var h=now.getHours()+now.getMinutes()/60;
+  var isOpen=(h>=9&&h<17.5);
+  var b=document.getElementById('openBadge');
+  b.textContent=isOpen?'● Open Now':'● Currently Closed';
+  b.classList.add(isOpen?'open':'closed');
+}catch(e){}
+render();
+</script>
+</body>
+</html>
