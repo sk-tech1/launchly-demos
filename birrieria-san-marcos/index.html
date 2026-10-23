@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birrieria San Marcos — Van Nuys</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --char:#22201d; --char2:#2c2824; --red:#a62e24; --red2:#8c271e;
+  --gold:#d79a2b; --gold2:#b57f1e; --cream:#f8edd3; --cream2:#f1e0ba;
+  --ink:#2b2118; --muted:#8a7355;
+}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+/* ---------- demo badge (outer frame only) ---------- */
+.demo-badge{position:fixed;top:12px;right:12px;z-index:999;background:#22201d;color:#d79a2b;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:8px 14px;border-radius:999px;border:1px solid #d79a2b;opacity:.92}
+/* ---------- hero ---------- */
+.hero{background:radial-gradient(ellipse at 50% -20%,rgba(215,154,43,.35),transparent 60%),linear-gradient(160deg,#22201d 0%,#4a1f16 55%,#8c271e 100%);color:#fff;padding:90px 20px 60px;text-align:center;position:relative}
+.hero .kicker{display:inline-block;background:var(--gold);color:#22201d;font-weight:800;font-size:12px;letter-spacing:2px;padding:7px 18px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-size:clamp(2.2em,6vw,3.6em);font-weight:900;line-height:1.1;text-shadow:0 3px 18px rgba(0,0,0,.5)}
+.hero h1 .accent{color:var(--gold)}
+.hero .tag{font-size:1.15em;margin-top:10px;opacity:.94}
+.hero .motifs{font-size:1.6em;margin-top:14px;letter-spacing:8px}
+.stars{color:var(--gold);font-size:1.15em;margin:10px 0 4px}
+.stars span{color:#fff;font-size:.85em}
+.open-now{display:inline-block;margin-top:12px;padding:8px 22px;border-radius:25px;font-weight:bold;font-size:.95em}
+.open{background:#2e7d32;color:#fff}.closed{background:#5d4037;color:#fff}
+.cta-row{margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;font-weight:800;padding:15px 36px;border-radius:999px;text-decoration:none;font-size:1.05em;transition:transform .15s}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--red));color:#fff;box-shadow:0 6px 24px rgba(166,46,36,.45)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.6)}
+.btn-ghost:hover{background:rgba(255,255,255,.25)}
+/* ---------- sections ---------- */
+.container{max-width:960px;margin:0 auto;padding:48px 20px}
+h2{font-size:1.9em;margin-bottom:6px;color:var(--red2)}
+.sec-sub{color:var(--muted);margin-bottom:26px;font-size:1.02em}
+.menu-cat{font-size:1.25em;font-weight:800;color:var(--char);margin:30px 0 14px;display:flex;align-items:center;gap:10px}
+.menu-cat::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 14px rgba(60,30,10,.09);border-top:4px solid var(--gold);display:flex;flex-direction:column}
+.card h3{font-size:1.08em;margin-bottom:2px}
+.card .price{color:var(--red);font-weight:800;font-size:1.2em;margin:4px 0}
+.card p{font-size:.9em;color:var(--muted);flex:1}
+.card .add{margin-top:12px;background:var(--char);color:#fff;border:none;font-weight:700;padding:10px;border-radius:10px;cursor:pointer;font-size:.95em}
+.card .add:hover{background:var(--red2)}
+.card .add.added{background:#2e7d32}
+/* ---------- order panel ---------- */
+.order-panel{background:var(--char);color:#fff;border-radius:18px;padding:32px;margin:44px 0;box-shadow:0 10px 40px rgba(34,32,29,.35)}
+.order-panel h2{color:var(--gold);margin-bottom:4px}
+.order-panel .sec-sub{color:#cdb894}
+#orderList{list-style:none;margin:18px 0}
+#orderList li{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed #5a5248;font-size:.98em;gap:8px}
+#orderList .qtybox{display:flex;align-items:center;gap:8px;white-space:nowrap}
+#orderList .qbtn{background:#3a352f;border:1px solid #6b6154;color:#f5e6c8;width:26px;height:26px;border-radius:8px;cursor:pointer;font-weight:800;font-size:.95em;line-height:1}
+#orderList .qbtn:hover{background:var(--red2);color:#fff}
+#orderList .rm{background:none;border:none;color:#e08a3c;cursor:pointer;font-size:1.1em;font-weight:700}
+#orderTotal{font-size:1.35em;font-weight:800;text-align:right;margin:8px 0 18px;color:var(--gold)}
+.order-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.order-form input{background:#33291f;border:1px solid #5a5248;color:#fff;padding:13px 16px;border-radius:10px;font-size:1em;width:100%}
+.order-form input::placeholder{color:#a08c68}
+.place-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--red));color:#fff;border:none;font-weight:800;font-size:1.15em;padding:16px;border-radius:14px;cursor:pointer}
+.place-btn:hover{filter:brightness(1.08)}
+.confirm{display:none;text-align:center;padding:20px 0}
+.confirm .big{font-size:3em;margin-bottom:10px}
+.confirm h3{color:var(--gold);font-size:1.5em;margin-bottom:8px}
+.confirm p{color:#e8d9ba;max-width:420px;margin:0 auto}
+.empty-note{color:#a08c68;text-align:center;padding:18px 0;font-style:italic}
+/* ---------- visit ---------- */
+.locs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.loc{background:#fff;border-radius:14px;padding:26px;box-shadow:0 2px 14px rgba(60,30,10,.09)}
+.loc h3{color:var(--red2);margin-bottom:8px;font-size:1.2em}
+.loc p{margin:6px 0;color:var(--ink)}
+.loc a{color:var(--red2);font-weight:700;text-decoration:none}
+.loc a:hover{text-decoration:underline}
+.hours-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.95em}
+.hours-table td{padding:7px 10px;border-bottom:1px solid #f1e0ba;color:var(--ink)}
+.hours-table td:last-child{text-align:right;font-weight:600}
+.hours-table tr.today td{background:#fdf3d0;font-weight:800;color:var(--red2)}
+.hours-table tr.today td:last-child{color:var(--red2)}
+/* ---------- hype ---------- */
+.hype{background:linear-gradient(135deg,var(--red2),#6e1d15);color:#fff;border-radius:18px;padding:36px;text-align:center;margin:44px 0}
+.hype .stars{margin:0 0 10px}
+.hype h2{color:var(--gold)}
+.hype p{max-width:580px;margin:10px auto 0;color:#f3e3c2;font-size:1.05em}
+/* ---------- footer ---------- */
+footer{background:var(--char);color:#a08c68;text-align:center;padding:34px 20px;font-size:.9em}
+footer .fname{color:var(--gold);font-weight:800;font-size:1.1em;margin-bottom:6px}
+.demo-note{background:#fff3cd;border:1px solid #ffc107;border-radius:10px;padding:14px 18px;margin:34px auto 0;max-width:960px;font-size:.88em;text-align:center;color:#5d4a1f}
+/* ---------- sticky bar ---------- */
+.sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--gold),var(--red));padding:15px;text-align:center;z-index:100}
+.sticky-bar a{color:#fff;text-decoration:none;font-weight:800;font-size:1.15em}
+@media(max-width:640px){
+  .sticky-bar{display:block}
+  body{padding-bottom:60px}
+  .order-form{grid-template-columns:1fr}
+  .container{padding:36px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-badge">DEMO CONCEPT</div>
+
+<div class="hero">
+  <div class="kicker">🌮 HOME OF THE TACOS DORADOS ESTILO SAN MARCOS</div>
+  <h1>Birrieria <span class="accent">San Marcos</span></h1>
+  <div class="stars">★★★★★ <span>4.5 · 176 ratings</span></div>
+  <p class="tag">Sinaloa-style birria de res — slow-cooked with guajillo &amp; California chiles, crisped on the griddle.</p>
+  <div class="motifs">🌮 🔥 🥩 🍋</div>
+  <div><span class="open-now" id="openBadge">Checking hours…</span></div>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#order">🔥 Order Now</a>
+    <a class="btn btn-ghost" href="#visit">📍 Visit Us</a>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Menu</h2>
+  <p class="sec-sub">Birria the San Marcos way — rich consomé, crispy dorados and cheese in everything. Pickup at Hazeltine Ave, Van Nuys.</p>
+
+  <div class="menu-cat">🌮 Tacos &amp; Birria Mains</div>
+  <div class="menu">
+    <div class="card"><h3>Tacos San Marcos Style</h3><div class="price">$16.00</div><p>Our signature — consommé-swabbed tortillas filled with birria de res, crisped on the griddle, finished with romaine, tomato, queso fresco, cotija &amp; crema.</p><button class="add" data-name="Tacos San Marcos Style" data-price="16.00">Add to Order</button></div>
+    <div class="card"><h3>QuesaBirria</h3><div class="price">$14.00</div><p>Slow-cooked birria folded into a crispy, cheese-grilled tortilla.</p><button class="add" data-name="QuesaBirria" data-price="14.00">Add to Order</button></div>
+    <div class="card"><h3>Queso Taco</h3><div class="price">$5.35</div><p>A Valley favorite — birria and melted cheese in a warm tortilla.</p><button class="add" data-name="Queso Taco" data-price="5.35">Add to Order</button></div>
+    <div class="card"><h3>Taco Dorado</h3><div class="price">$4.35</div><p>Golden, crispy rolled taco filled with birria.</p><button class="add" data-name="Taco Dorado" data-price="4.35">Add to Order</button></div>
+    <div class="card"><h3>Regular Soft Taco</h3><div class="price">$3.50</div><p>Classic soft taco with tender birria, onion &amp; cilantro.</p><button class="add" data-name="Regular Soft Taco" data-price="3.50">Add to Order</button></div>
+    <div class="card"><h3>Mulita</h3><div class="price">$5.35</div><p>Two tortillas sandwiching birria &amp; cheese, grilled golden.</p><button class="add" data-name="Mulita" data-price="5.35">Add to Order</button></div>
+    <div class="card"><h3>Vampiro</h3><div class="price">$5.35</div><p>Crispy tortilla topped with birria, cheese &amp; salsa.</p><button class="add" data-name="Vampiro" data-price="5.35">Add to Order</button></div>
+    <div class="card"><h3>Keto Taco</h3><div class="price">$6.15</div><p>All the birria flavor, cheese-shell style — no tortilla.</p><button class="add" data-name="Keto Taco" data-price="6.15">Add to Order</button></div>
+    <div class="card"><h3>Tostadita</h3><div class="price">$4.25</div><p>Crunchy mini tostada piled with birria &amp; fresh toppings.</p><button class="add" data-name="Tostadita" data-price="4.25">Add to Order</button></div>
+    <div class="card"><h3>Burrito</h3><div class="price">$14.00</div><p>A hefty flour tortilla stuffed with birria and all the fixings.</p><button class="add" data-name="Burrito" data-price="14.00">Add to Order</button></div>
+    <div class="card"><h3>Birria Combo Plate</h3><div class="price">$17.35</div><p>The full plate — birria with rice, beans &amp; tortillas.</p><button class="add" data-name="Birria Combo Plate" data-price="17.35">Add to Order</button></div>
+    <div class="card"><h3>Birria en Caldo</h3><div class="price">$18.00</div><p>Birria served in its own rich, slow-simmered broth.</p><button class="add" data-name="Birria en Caldo" data-price="18.00">Add to Order</button></div>
+    <div class="card"><h3>Birria Ramen</h3><div class="price">$16.50</div><p>Ramen noodles in birria consomé with beef &amp; fresh herbs.</p><button class="add" data-name="Birria Ramen" data-price="16.50">Add to Order</button></div>
+    <div class="card"><h3>Torta</h3><div class="price">$16.00</div><p>Birria piled into a toasted telera roll with beans &amp; avocado.</p><button class="add" data-name="Torta" data-price="16.00">Add to Order</button></div>
+    <div class="card"><h3>Quesadilla</h3><div class="price">$14.00</div><p>Big flour quesadilla with birria &amp; melted cheese.</p><button class="add" data-name="Quesadilla" data-price="14.00">Add to Order</button></div>
+    <div class="card"><h3>Quesadilla Cheese Only</h3><div class="price">$10.00</div><p>Simple, golden and loaded with melted cheese.</p><button class="add" data-name="Quesadilla Cheese Only" data-price="10.00">Add to Order</button></div>
+    <div class="card"><h3>San Marcos Style Loaded Fries</h3><div class="price">$18.99</div><p>Crispy fries loaded with nacho cheese, melted cheese, protein choice, pico de gallo, sour cream, guacamole &amp; jalapeños.</p><button class="add" data-name="San Marcos Style Loaded Fries" data-price="18.99">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🍳 Breakfast</div>
+  <div class="menu">
+    <div class="card"><h3>San Marcos Style Breakfast Burrito</h3><div class="price">$15.99</div><p>Egg, birria, bacon, tater tots, bell pepper &amp; avocado in a flour tortilla, wrapped in melted cheese.</p><button class="add" data-name="San Marcos Style Breakfast Burrito" data-price="15.99">Add to Order</button></div>
+    <div class="card"><h3>Ham + Egg Burrito</h3><div class="price">$15.99</div><p>Crisped breakfast burrito with ham, egg, crispy tater tots &amp; Monterey cheese.</p><button class="add" data-name="Ham + Egg Burrito" data-price="15.99">Add to Order</button></div>
+    <div class="card"><h3>Chorizo + Egg Burrito</h3><div class="price">$15.99</div><p>Chorizo &amp; egg crisped up in a flour tortilla — a morning classic.</p><button class="add" data-name="Chorizo + Egg Burrito" data-price="15.99">Add to Order</button></div>
+    <div class="card"><h3>El Ranchero Breakfast Burrito</h3><div class="price">$15.99</div><p>Egg, carne asada, tater tots, queso fresco &amp; pico de gallo in a flour tortilla.</p><button class="add" data-name="El Ranchero Breakfast Burrito" data-price="15.99">Add to Order</button></div>
+    <div class="card"><h3>Chilaquille Burrito</h3><div class="price">$15.99</div><p>Green or red chilaquiles, egg, choice of meat, beans, queso fresco, onion, cilantro &amp; sour cream.</p><button class="add" data-name="Chilaquille Burrito" data-price="15.99">Add to Order</button></div>
+    <div class="card"><h3>Chilaquiles</h3><div class="price">$15.99</div><p>Red or green chilaquiles with pico de gallo, choice of protein, two eggs, queso fresco, Monterey cheese &amp; sour cream.</p><button class="add" data-name="Chilaquiles" data-price="15.99">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🍜 Consomé &amp; Sides</div>
+  <div class="menu">
+    <div class="card"><h3>Consomé</h3><div class="price">$5.00</div><p>Our rich, slow-simmered birria broth — for dipping or sipping.</p><button class="add" data-name="Consomé" data-price="5.00">Add to Order</button></div>
+    <div class="card"><h3>Guac + Chips</h3><div class="price">$8.99</div><p>Fresh guacamole with crispy chips.</p><button class="add" data-name="Guac + Chips" data-price="8.99">Add to Order</button></div>
+    <div class="card"><h3>Side of Rice</h3><div class="price">$5.55</div><p>Mexican-style rice, the combo plate's best friend.</p><button class="add" data-name="Side of Rice" data-price="5.55">Add to Order</button></div>
+    <div class="card"><h3>Side of Beans</h3><div class="price">$5.55</div><p>Slow-cooked beans, rich &amp; savory.</p><button class="add" data-name="Side of Beans" data-price="5.55">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🥤 Drinks</div>
+  <div class="menu">
+    <div class="card"><h3>Agua Fresca (16 oz)</h3><div class="price">$8.50</div><p>Fresh-made agua fresca — ask about today's flavor.</p><button class="add" data-name="Agua Fresca (16 oz)" data-price="8.50">Add to Order</button></div>
+    <div class="card"><h3>Iced Café con Chata</h3><div class="price">$6.99</div><p>Iced coffee meets horchata — sweet, cold &amp; creamy.</p><button class="add" data-name="Iced Café con Chata" data-price="6.99">Add to Order</button></div>
+    <div class="card"><h3>Can Soda</h3><div class="price">$2.99</div><p>Coke, Diet Coke, Sprite or Squirt — ice cold.</p><button class="add" data-name="Can Soda" data-price="2.99">Add to Order</button></div>
+  </div>
+
+  <div class="order-panel" id="order">
+    <h2>🔥 Your Order</h2>
+    <p class="sec-sub">Pick your items, then place your order for pickup at Hazeltine Ave.</p>
+    <ul id="orderList"></ul>
+    <p class="empty-note" id="emptyNote">Your tray is empty — add something delicious from the menu above.</p>
+    <div id="orderTotal" style="display:none">Total: $<span id="totalAmt">0.00</span></div>
+    <div class="order-form" id="orderForm" style="display:none">
+      <input type="text" id="custName" placeholder="Your name">
+      <input type="tel" id="custPhone" placeholder="Phone number">
+    </div>
+    <button class="place-btn" id="placeBtn" style="display:none">Place Order for Pickup</button>
+    <div class="confirm" id="confirmBox">
+      <div class="big">🌮</div>
+      <h3>Order received!</h3>
+      <p id="confirmText">We'll have it hot and ready for pickup in about 15 minutes. Show this screen at the counter.</p>
+    </div>
+  </div>
+
+  <div class="hype">
+    <div class="stars">★★★★★</div>
+    <h2>Named by the LA Times</h2>
+    <p>The <strong>Los Angeles Times</strong> singled out our tacos dorados estilo San Marcos as one of <strong>three inventive tacos to try now in Los Angeles</strong> — a Sinaloa-family recipe, slow-cooked and crisped to order. Come taste what the Valley already knows.</p>
+  </div>
+
+  <h2 id="visit">Visit Us</h2>
+  <p class="sec-sub">Find us on Hazeltine Ave in Van Nuys — order ahead or walk up to the counter.</p>
+  <div class="locs">
+    <div class="loc">
+      <h3>📍 Hazeltine Ave — Van Nuys</h3>
+      <p>📍 5937 Hazeltine Ave<br>Van Nuys, CA 91401</p>
+      <p>📞 <a href="tel:+18187812368">(818) 781-2368</a></p>
+      <table class="hours-table" id="hoursTable">
+        <tr data-day="1"><td>Monday</td><td>9:00 AM – 10:30 PM</td></tr>
+        <tr data-day="2"><td>Tuesday</td><td>9:00 AM – 10:30 PM</td></tr>
+        <tr data-day="3"><td>Wednesday</td><td>9:00 AM – 10:30 PM</td></tr>
+        <tr data-day="4"><td>Thursday</td><td>9:00 AM – 10:30 PM</td></tr>
+        <tr data-day="5"><td>Friday</td><td>9:00 AM – 10:30 PM</td></tr>
+        <tr data-day="6"><td>Saturday</td><td>9:00 AM – 10:30 PM</td></tr>
+        <tr data-day="0"><td>Sunday</td><td>9:00 AM – 10:30 PM</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="demo-note">💡 <strong>Demo concept website created by Launchly.</strong> This is a sample design — not the business's real website. Menu items, prices and hours shown are samples.</div>
+</div>
+
+<div class="sticky-bar"><a href="#order">🔥 Order Now</a></div>
+
+<footer>
+  <div class="fname">Birrieria San Marcos</div>
+  <div>Van Nuys, CA · 📸 @birrieriasanmarcos</div>
+</footer>
+
+<script>
+var order={};
+function fmt(n){return n.toFixed(2)}
+function render(){
+  var list=document.getElementById('orderList');
+  list.innerHTML='';
+  var total=0,count=0;
+  Object.keys(order).forEach(function(name){
+    var it=order[name];
+    total+=it.price*it.qty; count+=it.qty;
+    var li=document.createElement('li');
+    li.innerHTML='<span>'+name+'</span><span class="qtybox"><button class="qbtn" data-act="dec" data-name="'+name+'" aria-label="decrease">−</button><span>× '+it.qty+'</span><button class="qbtn" data-act="inc" data-name="'+name+'" aria-label="increase">+</button><span>$'+fmt(it.price*it.qty)+'</span><button class="rm" data-act="rm" data-name="'+name+'" aria-label="remove">×</button></span>';
+    list.appendChild(li);
+  });
+  var has=count>0;
+  document.getElementById('emptyNote').style.display=has?'none':'block';
+  document.getElementById('orderTotal').style.display=has?'block':'none';
+  document.getElementById('orderForm').style.display=has?'grid':'none';
+  document.getElementById('placeBtn').style.display=has?'block':'none';
+  document.getElementById('totalAmt').textContent=fmt(total);
+  list.querySelectorAll('button').forEach(function(b){
+    b.onclick=function(){
+      var n=b.getAttribute('data-name'),act=b.getAttribute('data-act');
+      if(!order[n])return;
+      if(act==='inc')order[n].qty++;
+      else if(act==='dec'){order[n].qty--;if(order[n].qty<=0)delete order[n];}
+      else if(act==='rm')delete order[n];
+      render();
+    };
+  });
+}
+document.querySelectorAll('.add').forEach(function(btn){
+  btn.onclick=function(){
+    var name=btn.getAttribute('data-name');
+    if(order[name])order[name].qty++;
+    else order[name]={price:parseFloat(btn.getAttribute('data-price')),qty:1};
+    btn.textContent='Added ✓';btn.classList.add('added');
+    setTimeout(function(){btn.textContent='Add to Order';btn.classList.remove('added');},1200);
+    render();
+  };
+});
+document.getElementById('placeBtn').onclick=function(){
+  var name=document.getElementById('custName').value.trim();
+  if(!name){alert('Please enter your name so we know whose order it is!');return;}
+  var total=document.getElementById('totalAmt').textContent;
+  document.getElementById('confirmText').textContent='Thanks '+name+'! Your $'+total+' order will be hot and ready for pickup at 5937 Hazeltine Ave in about 15 minutes. Show this screen at the counter.';
+  document.getElementById('orderList').style.display='none';
+  document.getElementById('orderTotal').style.display='none';
+  document.getElementById('orderForm').style.display='none';
+  document.getElementById('placeBtn').style.display='none';
+  document.getElementById('emptyNote').style.display='none';
+  document.getElementById('confirmBox').style.display='block';
+  document.getElementById('confirmBox').scrollIntoView({behavior:'smooth',block:'center'});
+};
+/* open-now badge + today highlight (America/Los_Angeles) — open daily 9:00 AM–10:30 PM */
+try{
+  var now=new Date(new Date().toLocaleString('en-US',{timeZone:'America/Los_Angeles'}));
+  var d=now.getDay(),h=now.getHours()+now.getMinutes()/60;
+  var isOpen=(h>=9&&h<22.5);
+  var b=document.getElementById('openBadge');
+  b.textContent=isOpen?'● Open Now':'● Currently Closed';
+  b.classList.add(isOpen?'open':'closed');
+  var row=document.querySelector('#hoursTable tr[data-day="'+d+'"]');
+  if(row)row.classList.add('today');
+}catch(e){}
+render();
+</script>
+</body>
+</html>
