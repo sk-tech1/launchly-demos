@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jumbo Burgers — Toronto</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --char:#191410; --char2:#241a12; --red:#b3271e; --red2:#8f1d16;
+  --orange:#e07b26; --gold:#f2b33d; --cream:#fdf7ec; --cream2:#f7ecd4;
+  --ink:#2b1d12; --muted:#8a7057;
+}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+/* ---------- demo badge (outer frame only) ---------- */
+.demo-badge{position:fixed;top:12px;right:12px;z-index:999;background:#191410;color:#f2b33d;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:8px 14px;border-radius:999px;border:1px solid #f2b33d;opacity:.92}
+/* ---------- hero ---------- */
+.hero{background:radial-gradient(ellipse at 20% -10%,rgba(242,179,61,.35),transparent 55%),radial-gradient(ellipse at 85% 110%,rgba(224,123,38,.35),transparent 55%),linear-gradient(160deg,#2a1608,#191410 70%);color:#fff;padding:90px 20px 60px;text-align:center;position:relative}
+.hero .kicker{display:inline-block;background:var(--gold);color:#191410;font-weight:800;font-size:12px;letter-spacing:2px;padding:7px 18px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-size:clamp(2.4em,7vw,3.8em);font-weight:900;line-height:1.05;text-shadow:0 3px 18px rgba(0,0,0,.5)}
+.hero h1 .accent{color:var(--gold)}
+.hero .motif{font-size:2em;margin-top:14px;letter-spacing:10px}
+.hero .tag{font-size:1.15em;margin-top:10px;opacity:.94}
+.stars{color:var(--gold);font-size:1.15em;margin:10px 0 4px}
+.stars span{color:#fff;font-size:.85em}
+.open-now{display:inline-block;margin-top:12px;padding:8px 22px;border-radius:25px;font-weight:bold;font-size:.95em}
+.open{background:#2e7d32;color:#fff}.closed{background:#5d4037;color:#fff}
+.cta-row{margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;font-weight:800;padding:15px 36px;border-radius:999px;text-decoration:none;font-size:1.05em;transition:transform .15s}
+.btn-primary{background:linear-gradient(135deg,var(--orange),var(--red));color:#fff;box-shadow:0 6px 24px rgba(179,39,30,.45)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.6)}
+.btn-ghost:hover{background:rgba(255,255,255,.25)}
+/* ---------- sections ---------- */
+.container{max-width:960px;margin:0 auto;padding:48px 20px}
+h2{font-size:1.9em;margin-bottom:6px;color:var(--red2)}
+.sec-sub{color:var(--muted);margin-bottom:26px;font-size:1.02em}
+.menu-cat{font-size:1.25em;font-weight:800;color:var(--char);margin:30px 0 14px;display:flex;align-items:center;gap:10px}
+.menu-cat::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 14px rgba(60,30,10,.09);border-top:4px solid var(--orange);display:flex;flex-direction:column}
+.card.sig{border-top:4px solid var(--red);background:linear-gradient(180deg,#fff8ea,#fff)}
+.card h3{font-size:1.08em;margin-bottom:2px}
+.card .price{color:var(--red);font-weight:800;font-size:1.2em;margin:4px 0}
+.card p{font-size:.9em;color:var(--muted);flex:1}
+.card .add{margin-top:12px;background:var(--char);color:#fff;border:none;font-weight:700;padding:10px;border-radius:10px;cursor:pointer;font-size:.95em}
+.card .add:hover{background:var(--red2)}
+.card .add.added{background:#2e7d32}
+/* ---------- order panel ---------- */
+.order-panel{background:var(--char);color:#fff;border-radius:18px;padding:32px;margin:44px 0;box-shadow:0 10px 40px rgba(25,20,16,.35)}
+.order-panel h2{color:var(--gold);margin-bottom:4px}
+.order-panel .sec-sub{color:#c9a98c}
+#orderList{list-style:none;margin:18px 0}
+#orderList li{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed #5a4030;font-size:.98em;gap:8px}
+#orderList .qty{display:inline-flex;align-items:center;gap:8px}
+#orderList .qbtn{background:#2e1c12;border:1px solid #5a4030;color:#f2b33d;width:26px;height:26px;border-radius:8px;cursor:pointer;font-weight:800;line-height:1}
+#orderList .rm{background:none;border:none;color:#e07b26;cursor:pointer;font-size:1.1em;font-weight:700}
+#orderTotal{font-size:1.35em;font-weight:800;text-align:right;margin:8px 0 18px;color:var(--gold)}
+.order-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.order-form input{background:#2e1c12;border:1px solid #5a4030;color:#fff;padding:13px 16px;border-radius:10px;font-size:1em;width:100%}
+.order-form input::placeholder{color:#a08064}
+.place-btn{width:100%;background:linear-gradient(135deg,var(--orange),var(--red));color:#fff;border:none;font-weight:800;font-size:1.15em;padding:16px;border-radius:14px;cursor:pointer}
+.place-btn:hover{filter:brightness(1.08)}
+.confirm{display:none;text-align:center;padding:20px 0}
+.confirm .big{font-size:3em;margin-bottom:10px}
+.confirm h3{color:var(--gold);font-size:1.5em;margin-bottom:8px}
+.confirm p{color:#e8d5bd;max-width:440px;margin:0 auto}
+.empty-note{color:#a08064;text-align:center;padding:18px 0;font-style:italic}
+/* ---------- info ---------- */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.info-card{background:#fff;border-radius:14px;padding:26px;box-shadow:0 2px 14px rgba(60,30,10,.09)}
+.info-card h3{color:var(--red2);margin-bottom:10px;font-size:1.2em}
+.info-card p{margin:6px 0;color:var(--ink)}
+.info-card a{color:var(--red);font-weight:700;text-decoration:none}
+table.hours{width:100%;border-collapse:collapse;font-size:.95em}
+table.hours td{padding:5px 0;border-bottom:1px dashed #e4d3b8;color:var(--ink)}
+table.hours td:last-child{text-align:right;font-weight:700}
+table.hours tr.today td{color:var(--red2);font-weight:800}
+/* ---------- hype ---------- */
+.hype{background:linear-gradient(135deg,var(--red2),#6d130d);color:#fff;border-radius:18px;padding:36px;text-align:center;margin:44px 0}
+.hype .stars{margin:0 0 10px}
+.hype h2{color:var(--gold)}
+.hype p{max-width:580px;margin:10px auto 0;color:#f3ddc2;font-size:1.05em}
+/* ---------- footer ---------- */
+footer{background:var(--char);color:#a08064;text-align:center;padding:34px 20px;font-size:.9em}
+footer .fname{color:var(--gold);font-weight:800;font-size:1.1em;margin-bottom:6px}
+.demo-note{background:#fff3cd;border:1px solid #ffc107;border-radius:10px;padding:14px 18px;margin:34px auto 0;max-width:960px;font-size:.88em;text-align:center;color:#5d4a1f}
+/* ---------- sticky bar ---------- */
+.sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--orange),var(--red));padding:15px;text-align:center;z-index:100}
+.sticky-bar a{color:#fff;text-decoration:none;font-weight:800;font-size:1.15em}
+@media(max-width:640px){
+  .sticky-bar{display:block}
+  body{padding-bottom:60px}
+  .order-form{grid-template-columns:1fr}
+  .container{padding:36px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-badge">DEMO CONCEPT</div>
+
+<div class="hero">
+  <div class="kicker">🍔 A JUNCTION INSTITUTION · SINCE 1972</div>
+  <h1>Jumbo <span class="accent">Burgers</span></h1>
+  <div class="stars">★★★★★ <span>4.4 · 1,400+ reviews</span></div>
+  <p class="tag">Old-school charcoal-grilled burgers — 5 oz AAA beef, made fresh daily since 1972.</p>
+  <div class="motif">🍔 🍟 🧅 🥤</div>
+  <div><span class="open-now" id="openBadge">Checking hours…</span></div>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#order">🍔 Order Now</a>
+    <a class="btn btn-ghost" href="#visit">📍 Visit Us</a>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Menu</h2>
+  <p class="sec-sub">Charcoal-grilled the way it's been done for over 50 years. All prices CAD.</p>
+
+  <div class="menu-cat">🍔 Burgers &amp; Dogs</div>
+  <div class="menu">
+    <div class="card"><h3>Hamburger</h3><div class="price">$12.99</div><p>Homemade daily — 5 oz 100% pure AAA beef, charcoal-grilled. Pick your toppings at the counter.</p><button class="add" data-name="Hamburger" data-price="12.99">Add to Order</button></div>
+    <div class="card"><h3>Cheese Burger</h3><div class="price">$13.99</div><p>Our most-ordered — 5 oz AAA beef with a slice of melted cheese.</p><button class="add" data-name="Cheese Burger" data-price="13.99">Add to Order</button></div>
+    <div class="card"><h3>Bacon Burger</h3><div class="price">$14.99</div><p>5 oz AAA beef with grilled bacon, done the old-school way.</p><button class="add" data-name="Bacon Burger" data-price="14.99">Add to Order</button></div>
+    <div class="card"><h3>Banquet Burger</h3><div class="price">$16.49</div><p>A Jumbo classic — 5 oz AAA beef with two strips of bacon and a slice of cheese.</p><button class="add" data-name="Banquet Burger" data-price="16.49">Add to Order</button></div>
+    <div class="card sig"><h3>⭐ Double Banquet Burger</h3><div class="price">$20.99</div><p>The signature. TWO 5 oz patties, four strips of smoked bacon and two slices of American cheese. Bring an appetite.</p><button class="add" data-name="Double Banquet Burger" data-price="20.99">Add to Order</button></div>
+    <div class="card"><h3>Double Cheese Burger</h3><div class="price">$17.99</div><p>Two 5 oz patties, a slice of cheese on each. Huge — and worth it.</p><button class="add" data-name="Double Cheese Burger" data-price="17.99">Add to Order</button></div>
+    <div class="card"><h3>Double Burger</h3><div class="price">$16.99</div><p>Two 5 oz homemade patties, charcoal-grilled.</p><button class="add" data-name="Double Burger" data-price="16.99">Add to Order</button></div>
+    <div class="card"><h3>Dbl Bacon Burger</h3><div class="price">$18.99</div><p>Double patties, double bacon. No regrets.</p><button class="add" data-name="Dbl Bacon Burger" data-price="18.99">Add to Order</button></div>
+    <div class="card"><h3>Chicken Burger</h3><div class="price">$12.99</div><p>A lighter classic from the grill.</p><button class="add" data-name="Chicken Burger" data-price="12.99">Add to Order</button></div>
+    <div class="card"><h3>Hot Dog</h3><div class="price">$8.99</div><p>All-beef hot dog with your choice of toppings.</p><button class="add" data-name="Hot Dog" data-price="8.99">Add to Order</button></div>
+    <div class="card"><h3>Cheese Dog with Bacon</h3><div class="price">$11.99</div><p>Beef hot dog loaded with cheese and two strips of bacon.</p><button class="add" data-name="Cheese Dog with Bacon" data-price="11.99">Add to Order</button></div>
+    <div class="card"><h3>Peameal Bacon Sandwich</h3><div class="price">$14.99</div><p>A true Toronto classic, on a bun.</p><button class="add" data-name="Peameal Bacon Sandwich" data-price="14.99">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🍟 Sides</div>
+  <div class="menu">
+    <div class="card"><h3>Fresh-Cut Fries (Small)</h3><div class="price">$6.99</div><p>Cut fresh in-house, fried golden.</p><button class="add" data-name="Fries (Small)" data-price="6.99">Add to Order</button></div>
+    <div class="card"><h3>Fresh-Cut Fries (Large)</h3><div class="price">$8.99</div><p>The big basket — made for sharing (or not).</p><button class="add" data-name="Fries (Large)" data-price="8.99">Add to Order</button></div>
+    <div class="card"><h3>Onion Rings</h3><div class="price">$9.99</div><p>House-made — thick, fluffy-battered rings of sweet onion. Reviewers call them the highlight.</p><button class="add" data-name="Onion Rings" data-price="9.99">Add to Order</button></div>
+    <div class="card"><h3>Large Onion Rings</h3><div class="price">$14.99</div><p>Go large — trust us on this one.</p><button class="add" data-name="Large Onion Rings" data-price="14.99">Add to Order</button></div>
+    <div class="card"><h3>Poutine</h3><div class="price">$13.49</div><p>Fresh-cut fries, cheese curds and gravy.</p><button class="add" data-name="Poutine" data-price="13.49">Add to Order</button></div>
+    <div class="card"><h3>Fry &amp; Onion Ring Combo</h3><div class="price">$14.99</div><p>Can't decide? Get both.</p><button class="add" data-name="Fry & Onion Ring Combo" data-price="14.99">Add to Order</button></div>
+    <div class="card"><h3>Side Gravy</h3><div class="price">$3.75</div><p>For dipping — a Jumbo tradition.</p><button class="add" data-name="Side Gravy" data-price="3.75">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🥙 More Classics</div>
+  <div class="menu">
+    <div class="card"><h3>Chicken Souvlaki on a Bun or Pita</h3><div class="price">$16.99</div><p>Marinated chicken skewer with onion, tomato and tzatziki.</p><button class="add" data-name="Chicken Souvlaki on a Bun or Pita" data-price="16.99">Add to Order</button></div>
+    <div class="card"><h3>Gyro on Bun or Pita</h3><div class="price">$15.99</div><p>Classic gyro with tomato, onion and tzatziki.</p><button class="add" data-name="Gyro on Bun or Pita" data-price="15.99">Add to Order</button></div>
+    <div class="card"><h3>Halibut Fish &amp; Chips</h3><div class="price">$27.99</div><p>Crispy battered halibut with our fresh-cut fries.</p><button class="add" data-name="Halibut Fish & Chips" data-price="27.99">Add to Order</button></div>
+    <div class="card"><h3>Chicken Fingers with Fries</h3><div class="price">$20.99</div><p>Golden chicken fingers with a side of fresh-cut fries.</p><button class="add" data-name="Chicken Fingers with Fries" data-price="20.99">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🥤 Drinks &amp; Shakes</div>
+  <div class="menu">
+    <div class="card"><h3>Milkshake (20 oz)</h3><div class="price">$8.75</div><p>Thick, old-fashioned shakes — the way a burger joint should make them.</p><button class="add" data-name="Milkshake (20 oz)" data-price="8.75">Add to Order</button></div>
+    <div class="card"><h3>Soft Drink (710 ml Bottle)</h3><div class="price">$4.50</div><p>Coca-Cola, Pepsi, Dr Pepper, Orange Crush and more.</p><button class="add" data-name="Soft Drink (710 ml Bottle)" data-price="4.50">Add to Order</button></div>
+    <div class="card"><h3>Soft Drink (Can)</h3><div class="price">$3.25</div><p>Ice-cold cans — Coke, Pepsi, Root Beer, Canada Dry and more.</p><button class="add" data-name="Soft Drink (Can)" data-price="3.25">Add to Order</button></div>
+    <div class="card"><h3>Water</h3><div class="price">$2.50</div><p>Bottled water.</p><button class="add" data-name="Water" data-price="2.50">Add to Order</button></div>
+  </div>
+
+  <div class="order-panel" id="order">
+    <h2>🍔 Your Order</h2>
+    <p class="sec-sub">Pick your items, then place your order for pickup at the counter.</p>
+    <ul id="orderList"></ul>
+    <p class="empty-note" id="emptyNote">Your tray is empty — add something delicious from the menu above.</p>
+    <div id="orderTotal" style="display:none">Total: $<span id="totalAmt">0.00</span> CAD</div>
+    <div class="order-form" id="orderForm" style="display:none">
+      <input type="text" id="custName" placeholder="Your name">
+      <input type="tel" id="custPhone" placeholder="Phone number">
+    </div>
+    <button class="place-btn" id="placeBtn" style="display:none">Place Order for Pickup</button>
+    <div class="confirm" id="confirmBox">
+      <div class="big">🍔</div>
+      <h3>Order received!</h3>
+      <p id="confirmText">We'll have it hot off the grill and ready for pickup in about 15 minutes. Show this screen at the counter.</p>
+    </div>
+  </div>
+
+  <div class="hype">
+    <div class="stars">★★★★★</div>
+    <h2>A Junction Institution</h2>
+    <p>Jumbo Burgers has been serving the Junction since <strong>1972</strong> — charcoal-grilled burgers, house-made onion rings and the kind of counter service Toronto grew up on. Over <strong>1,400 Google reviews</strong> and counting. Some things don't need changing.</p>
+  </div>
+
+  <h2 id="visit">Visit Us</h2>
+  <p class="sec-sub">In the Junction, at Runnymede &amp; Dundas — walk-ins welcome.</p>
+  <div class="info-grid">
+    <div class="info-card">
+      <h3>📍 Find Us</h3>
+      <p>685 Runnymede Rd<br>Toronto, ON M6S 3A4</p>
+      <p>📞 <a href="tel:+14167636961">416-763-6961</a></p>
+      <p>🛵 Also on <strong>Uber Eats</strong> for delivery</p>
+      <p>💵 At the counter we take <strong>cash &amp; e-transfer</strong></p>
+      <p>📸 Instagram: @jumbo_burgers_since_1972</p>
+    </div>
+    <div class="info-card">
+      <h3>🕐 Hours</h3>
+      <table class="hours" id="hoursTable">
+        <tr data-day="1"><td>Monday</td><td>11:00 AM – 9:00 PM</td></tr>
+        <tr data-day="2"><td>Tuesday</td><td>11:00 AM – 9:00 PM</td></tr>
+        <tr data-day="3"><td>Wednesday</td><td>11:00 AM – 9:00 PM</td></tr>
+        <tr data-day="4"><td>Thursday</td><td>11:00 AM – 9:00 PM</td></tr>
+        <tr data-day="5"><td>Friday</td><td>11:00 AM – 10:00 PM</td></tr>
+        <tr data-day="6"><td>Saturday</td><td>11:00 AM – 10:00 PM</td></tr>
+        <tr data-day="0"><td>Sunday</td><td>11:00 AM – 7:30 PM</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="demo-note">💡 <strong>Demo concept website created by Launchly.</strong> This is a sample design — not the business's real website.</div>
+</div>
+
+<div class="sticky-bar"><a href="#order">🍔 Order Now</a></div>
+
+<footer>
+  <div class="fname">Jumbo Burgers</div>
+  <div>685 Runnymede Rd, Toronto · Since 1972 · 📸 @jumbo_burgers_since_1972</div>
+</footer>
+
+<script>
+var order={};
+function fmt(n){return n.toFixed(2)}
+function render(){
+  var list=document.getElementById('orderList');
+  list.innerHTML='';
+  var total=0,count=0;
+  Object.keys(order).forEach(function(name){
+    var it=order[name];
+    total+=it.price*it.qty; count+=it.qty;
+    var li=document.createElement('li');
+    li.innerHTML='<span>'+name+'</span><span class="qty"><button class="qbtn" data-act="dec" data-name="'+name+'">−</button> ×'+it.qty+' <button class="qbtn" data-act="inc" data-name="'+name+'">+</button></span><span>$'+fmt(it.price*it.qty)+' <button class="rm" data-act="rm" data-name="'+name+'" aria-label="remove">×</button></span>';
+    list.appendChild(li);
+  });
+  var has=count>0;
+  document.getElementById('emptyNote').style.display=has?'none':'block';
+  document.getElementById('orderTotal').style.display=has?'block':'none';
+  document.getElementById('orderForm').style.display=has?'grid':'none';
+  document.getElementById('placeBtn').style.display=has?'block':'none';
+  document.getElementById('totalAmt').textContent=fmt(total);
+  list.querySelectorAll('button').forEach(function(b){
+    b.onclick=function(){
+      var n=b.getAttribute('data-name'),a=b.getAttribute('data-act');
+      if(!order[n])return;
+      if(a==='inc')order[n].qty++;
+      if(a==='dec'){order[n].qty--;if(order[n].qty<=0)delete order[n];}
+      if(a==='rm')delete order[n];
+      render();
+    };
+  });
+}
+document.querySelectorAll('.add').forEach(function(btn){
+  btn.onclick=function(){
+    var n=btn.getAttribute('data-name'),p=parseFloat(btn.getAttribute('data-price'));
+    if(order[n])order[n].qty++;else order[n]={price:p,qty:1};
+    btn.textContent='Added ✓';btn.classList.add('added');
+    setTimeout(function(){btn.textContent='Add to Order';btn.classList.remove('added');},1200);
+    render();
+  };
+});
+document.getElementById('placeBtn').onclick=function(){
+  var name=document.getElementById('custName').value.trim();
+  if(!name){alert('Please enter your name so we know whose order it is!');return;}
+  var total=document.getElementById('totalAmt').textContent;
+  document.getElementById('confirmText').textContent='Thanks '+name+'! Your $'+total+' CAD order will be hot off the grill and ready for pickup at 685 Runnymede Rd in about 15 minutes. Show this screen at the counter.';
+  document.getElementById('orderList').style.display='none';
+  document.getElementById('orderTotal').style.display='none';
+  document.getElementById('orderForm').style.display='none';
+  document.getElementById('placeBtn').style.display='none';
+  document.getElementById('emptyNote').style.display='none';
+  document.getElementById('confirmBox').style.display='block';
+  document.getElementById('confirmBox').scrollIntoView({behavior:'smooth',block:'center'});
+};
+/* open-now badge + today highlight (America/Toronto) */
+try{
+  var now=new Date(new Date().toLocaleString('en-US',{timeZone:'America/Toronto'}));
+  var d=now.getDay(),h=now.getHours()+now.getMinutes()/60;
+  var sched={0:[11,19.5],1:[11,21],2:[11,21],3:[11,21],4:[11,21],5:[11,22],6:[11,22]};
+  var s=sched[d],isOpen=(h>=s[0]&&h<s[1]);
+  var b=document.getElementById('openBadge');
+  b.textContent=isOpen?'● Open Now':'● Currently Closed';
+  b.classList.add(isOpen?'open':'closed');
+  document.querySelectorAll('#hoursTable tr').forEach(function(tr){
+    if(parseInt(tr.getAttribute('data-day'))===d)tr.classList.add('today');
+  });
+}catch(e){}
+render();
+</script>
+</body>
+</html>
