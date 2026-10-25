@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daebak — Vauxhall, London</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --char:#1f1a17; --char2:#2c2420; --red:#b4232a; --red2:#8f1a20;
+  --gold:#e0a92e; --gold2:#c08a1a; --cream:#faf3e3; --cream2:#f1e4c4;
+  --ink:#2b2118; --muted:#8a7355;
+}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+/* ---------- demo badge (outer frame only) ---------- */
+.demo-badge{position:fixed;top:12px;right:12px;z-index:999;background:#1f1a17;color:#e0a92e;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:8px 14px;border-radius:999px;border:1px solid #e0a92e;opacity:.92}
+/* ---------- hero ---------- */
+.hero{background:radial-gradient(ellipse at 50% -20%,rgba(224,169,46,.35),transparent 60%),linear-gradient(160deg,#1f1a17 0%,#4a1418 55%,#8f1a20 100%);color:#fff;padding:90px 20px 60px;text-align:center;position:relative}
+.hero .kicker{display:inline-block;background:var(--gold);color:#1f1a17;font-weight:800;font-size:12px;letter-spacing:2px;padding:7px 18px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-size:clamp(2.2em,6vw,3.6em);font-weight:900;line-height:1.1;text-shadow:0 3px 18px rgba(0,0,0,.5)}
+.hero h1 .accent{color:var(--gold)}
+.hero .tag{font-size:1.15em;margin-top:10px;opacity:.94}
+.hero .motifs{font-size:1.6em;margin-top:14px;letter-spacing:8px}
+.stars{color:var(--gold);font-size:1.15em;margin:10px 0 4px}
+.stars span{color:#fff;font-size:.85em}
+.open-now{display:inline-block;margin-top:12px;padding:8px 22px;border-radius:25px;font-weight:bold;font-size:.95em}
+.open{background:#2e7d32;color:#fff}.closed{background:#5d4037;color:#fff}
+.cta-row{margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;font-weight:800;padding:15px 36px;border-radius:999px;text-decoration:none;font-size:1.05em;transition:transform .15s}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--red));color:#fff;box-shadow:0 6px 24px rgba(180,35,42,.45)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.6)}
+.btn-ghost:hover{background:rgba(255,255,255,.25)}
+/* ---------- sections ---------- */
+.container{max-width:960px;margin:0 auto;padding:48px 20px}
+h2{font-size:1.9em;margin-bottom:6px;color:var(--red2)}
+.sec-sub{color:var(--muted);margin-bottom:26px;font-size:1.02em}
+.menu-cat{font-size:1.25em;font-weight:800;color:var(--char);margin:30px 0 14px;display:flex;align-items:center;gap:10px}
+.menu-cat::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 14px rgba(60,30,10,.09);border-top:4px solid var(--gold);display:flex;flex-direction:column}
+.card h3{font-size:1.08em;margin-bottom:2px}
+.card .price{color:var(--red);font-weight:800;font-size:1.2em;margin:4px 0}
+.card p{font-size:.9em;color:var(--muted);flex:1}
+.card .add{margin-top:12px;background:var(--char);color:#fff;border:none;font-weight:700;padding:10px;border-radius:10px;cursor:pointer;font-size:.95em}
+.card .add:hover{background:var(--red2)}
+.card .add.added{background:#2e7d32}
+/* ---------- order panel ---------- */
+.order-panel{background:var(--char);color:#fff;border-radius:18px;padding:32px;margin:44px 0;box-shadow:0 10px 40px rgba(31,26,23,.35)}
+.order-panel h2{color:var(--gold);margin-bottom:4px}
+.order-panel .sec-sub{color:#cdb894}
+#orderList{list-style:none;margin:18px 0}
+#orderList li{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed #5a5248;font-size:.98em;gap:8px}
+#orderList .qtybox{display:flex;align-items:center;gap:8px;white-space:nowrap}
+#orderList .qbtn{background:#3a352f;border:1px solid #6b6154;color:#f5e6c8;width:26px;height:26px;border-radius:8px;cursor:pointer;font-weight:800;font-size:.95em;line-height:1}
+#orderList .qbtn:hover{background:var(--red2);color:#fff}
+#orderList .rm{background:none;border:none;color:#e08a3c;cursor:pointer;font-size:1.1em;font-weight:700}
+#orderTotal{font-size:1.35em;font-weight:800;text-align:right;margin:8px 0 18px;color:var(--gold)}
+.order-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.order-form input{background:#33291f;border:1px solid #5a5248;color:#fff;padding:13px 16px;border-radius:10px;font-size:1em;width:100%}
+.order-form input::placeholder{color:#a08c68}
+.place-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--red));color:#fff;border:none;font-weight:800;font-size:1.15em;padding:16px;border-radius:14px;cursor:pointer}
+.place-btn:hover{filter:brightness(1.08)}
+.confirm{display:none;text-align:center;padding:20px 0}
+.confirm .big{font-size:3em;margin-bottom:10px}
+.confirm h3{color:var(--gold);font-size:1.5em;margin-bottom:8px}
+.confirm p{color:#e8d9ba;max-width:420px;margin:0 auto}
+.empty-note{color:#a08c68;text-align:center;padding:18px 0;font-style:italic}
+/* ---------- visit ---------- */
+.locs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.loc{background:#fff;border-radius:14px;padding:26px;box-shadow:0 2px 14px rgba(60,30,10,.09)}
+.loc h3{color:var(--red2);margin-bottom:8px;font-size:1.2em}
+.loc p{margin:6px 0;color:var(--ink)}
+.loc a{color:var(--red2);font-weight:700;text-decoration:none}
+.loc a:hover{text-decoration:underline}
+.hours-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.95em}
+.hours-table td{padding:7px 10px;border-bottom:1px solid #f1e4c4;color:var(--ink)}
+.hours-table td:last-child{text-align:right;font-weight:600}
+.hours-table tr.today td{background:#fdf3d0;font-weight:800;color:var(--red2)}
+.hours-table tr.today td:last-child{color:var(--red2)}
+/* ---------- hype ---------- */
+.hype{background:linear-gradient(135deg,var(--red2),#6e1418);color:#fff;border-radius:18px;padding:36px;text-align:center;margin:44px 0}
+.hype .stars{margin:0 0 10px}
+.hype h2{color:var(--gold)}
+.hype p{max-width:580px;margin:10px auto 0;color:#f3e3c2;font-size:1.05em}
+/* ---------- footer ---------- */
+footer{background:var(--char);color:#a08c68;text-align:center;padding:34px 20px;font-size:.9em}
+footer .fname{color:var(--gold);font-weight:800;font-size:1.1em;margin-bottom:6px}
+.demo-note{background:#fff3cd;border:1px solid #ffc107;border-radius:10px;padding:14px 18px;margin:34px auto 0;max-width:960px;font-size:.88em;text-align:center;color:#5d4a1f}
+/* ---------- sticky bar ---------- */
+.sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--gold),var(--red));padding:15px;text-align:center;z-index:100}
+.sticky-bar a{color:#fff;text-decoration:none;font-weight:800;font-size:1.15em}
+@media(max-width:640px){
+  .sticky-bar{display:block}
+  body{padding-bottom:60px}
+  .order-form{grid-template-columns:1fr}
+  .container{padding:36px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-badge">DEMO CONCEPT</div>
+
+<div class="hero">
+  <div class="kicker">🍗 VAUXHALL'S LEGENDARY KOREAN FRIED CHICKEN</div>
+  <h1>Daebak <span class="accent">— 대박</span></h1>
+  <div class="stars">★★★★★ <span>4.6 · 1,291 Google reviews</span></div>
+  <p class="tag">“Daebak” means a big win — double-fried crispy chicken, bibimbap, dumplings and Korean classics, all in one place.</p>
+  <div class="motifs">🍗 🥢 🌶️ 🍚</div>
+  <div><span class="open-now" id="openBadge">Checking hours…</span></div>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#order">🍗 Order Now</a>
+    <a class="btn btn-ghost" href="#visit">📍 Visit Us</a>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Menu</h2>
+  <p class="sec-sub">The full Daebak menu with prices — pick your favourites and order ahead for pickup at Kennington Lane.</p>
+
+  <div class="menu-cat">🍗 KFC — Korean Fried Chicken</div>
+  <div class="menu">
+    <div class="card"><h3>Yang Nyeum Chicken</h3><div class="price">£9.90</div><p>Deep fried crispy chicken with Korean style sweet chilli sauce.</p><button class="add" data-name="Yang Nyeum Chicken" data-price="9.90">Add to Order</button></div>
+    <div class="card"><h3>Soy Garlic Chicken</h3><div class="price">£9.90</div><p>Deep fried crispy chicken with Korean style soy garlic sauce.</p><button class="add" data-name="Soy Garlic Chicken" data-price="9.90">Add to Order</button></div>
+    <div class="card"><h3>Original Fried Chicken</h3><div class="price">£9.90</div><p>Deep fried crispy chicken — classic, simple, extra-crispy.</p><button class="add" data-name="Original Fried Chicken" data-price="9.90">Add to Order</button></div>
+    <div class="card"><h3>Sweet Cheese Powder Chicken</h3><div class="price">£9.90</div><p>Deep fried crispy chicken with Korean sweet cheese powder.</p><button class="add" data-name="Sweet Cheese Powder Chicken" data-price="9.90">Add to Order</button></div>
+    <div class="card"><h3>Pa Dak Chicken</h3><div class="price">£9.90</div><p>Deep fried crispy chicken with sliced spring onion and honey mustard sauce.</p><button class="add" data-name="Pa Dak Chicken" data-price="9.90">Add to Order</button></div>
+    <div class="card"><h3>Large Half &amp; Half Chicken (16 Pieces)</h3><div class="price">£28.50</div><p>Choose 2 flavours — yang nyeum, soy garlic, pa dak or original. Coleslaw salad included except Pa Dak.</p><button class="add" data-name="Large Half & Half Chicken (16 Pieces)" data-price="28.50">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🥟 Starters</div>
+  <div class="menu">
+    <div class="card"><h3>Chicken Dumplings (5 Pieces)</h3><div class="price">£8.90</div><p>Deep fried chicken and vegetable dumplings served with soy sauce.</p><button class="add" data-name="Chicken Dumplings (5 Pieces)" data-price="8.90">Add to Order</button></div>
+    <div class="card"><h3>Vegetable Dumplings (5 Pieces) (V)</h3><div class="price">£8.50</div><p>Deep fried vegetable dumplings — vegan friendly.</p><button class="add" data-name="Vegetable Dumplings (5 Pieces) (V)" data-price="8.50">Add to Order</button></div>
+    <div class="card"><h3>Prawn Katsu (4 Pieces)</h3><div class="price">£9.50</div><p>Crispy prawn katsu bites.</p><button class="add" data-name="Prawn Katsu (4 Pieces)" data-price="9.50">Add to Order</button></div>
+    <div class="card"><h3>Prawn Dumplings (5 Pieces)</h3><div class="price">£9.50</div><p>Deep fried prawn and vegetable dumpling served with soy sauce.</p><button class="add" data-name="Prawn Dumplings (5 Pieces)" data-price="9.50">Add to Order</button></div>
+    <div class="card"><h3>Bulgogi (Beef) Dumplings (4 Pieces)</h3><div class="price">£9.50</div><p>Deep fried bulgogi (beef) and vegetable dumpling served with soy sauce.</p><button class="add" data-name="Bulgogi (Beef) Dumplings (4 Pieces)" data-price="9.50">Add to Order</button></div>
+    <div class="card"><h3>Assorted Dumpling Set (10 Pieces)</h3><div class="price">£16.50</div><p>A selection of vege spring roll, vegetable, chicken, bulgogi and prawn dumplings served with soy sauce (2 pieces each).</p><button class="add" data-name="Assorted Dumpling Set (10 Pieces)" data-price="16.50">Add to Order</button></div>
+    <div class="card"><h3>Korean Corn Dog</h3><div class="price">£8.50</div><p>Street-food favourite, golden and crispy.</p><button class="add" data-name="Korean Corn Dog" data-price="8.50">Add to Order</button></div>
+    <div class="card"><h3>Vegetable Spring Roll 6pcs</h3><div class="price">£8.50</div><p>Crisp vegetable spring rolls — vegan.</p><button class="add" data-name="Vegetable Spring Roll 6pcs" data-price="8.50">Add to Order</button></div>
+    <div class="card"><h3>Fried Chips with Cheese Powder</h3><div class="price">£8.50</div><p>Chips dusted with sweet cheese powder.</p><button class="add" data-name="Fried Chips with Cheese Powder" data-price="8.50">Add to Order</button></div>
+    <div class="card"><h3>Japchae</h3><div class="price">£12.50</div><p>Stir fried glass noodles and mixed vegetables with soy sauce and sesame oil.</p><button class="add" data-name="Japchae" data-price="12.50">Add to Order</button></div>
+    <div class="card"><h3>Seafood Pancake</h3><div class="price">£13.50</div><p>Traditional Korean pancake with spring onions and mixed seafood served with soy sauce.</p><button class="add" data-name="Seafood Pancake" data-price="13.50">Add to Order</button></div>
+    <div class="card"><h3>Tteokbokki (Very Spicy)</h3><div class="price">£13.50</div><p>Rice cake, vegetables, noodles, fish cake and boiled egg in a spicy sauce.</p><button class="add" data-name="Tteokbokki (Very Spicy)" data-price="13.50">Add to Order</button></div>
+    <div class="card"><h3>Prawn Tempura (5 Pieces)</h3><div class="price">£14.50</div><p>Deep fried king prawns in a light tempura batter served with a soy dipping.</p><button class="add" data-name="Prawn Tempura (5 Pieces)" data-price="14.50">Add to Order</button></div>
+    <div class="card"><h3>Crispy Seaweed Roll 5pcs</h3><div class="price">£9.50</div><p>Crisp seaweed rolls — vegetarian.</p><button class="add" data-name="Crispy Seaweed Roll 5pcs" data-price="9.50">Add to Order</button></div>
+    <div class="card"><h3>Crispy Tofu (V)</h3><div class="price">£9.50</div><p>Deep fried tofu with crispy seaweed in sweet soy sauce.</p><button class="add" data-name="Crispy Tofu (V)" data-price="9.50">Add to Order</button></div>
+    <div class="card"><h3>Sweet Pumpkin Croquette (V)</h3><div class="price">£9.50</div><p>Golden pumpkin croquette — vegetarian.</p><button class="add" data-name="Sweet Pumpkin Croquette (V)" data-price="9.50">Add to Order</button></div>
+    <div class="card"><h3>Kimchi (Spicy)</h3><div class="price">£6.00</div><p>Korean national side dish made of Chinese cabbage with chilli and garlic.</p><button class="add" data-name="Kimchi (Spicy)" data-price="6.00">Add to Order</button></div>
+    <div class="card"><h3>Edamame (V) (GF)</h3><div class="price">£6.90</div><p>Steamed edamame — vegan, gluten free.</p><button class="add" data-name="Edamame (V) (GF)" data-price="6.90">Add to Order</button></div>
+    <div class="card"><h3>Miso Soup (V)</h3><div class="price">£3.00</div><p>Soybean paste soup served with seaweed, tofu and spring onions.</p><button class="add" data-name="Miso Soup (V)" data-price="3.00">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🍚 Rice</div>
+  <div class="menu">
+    <div class="card"><h3>Bibimbap</h3><div class="price">£14.90</div><p>Steam rice with mixed vegetables and fried egg.</p><button class="add" data-name="Bibimbap" data-price="14.90">Add to Order</button></div>
+    <div class="card"><h3>Bento</h3><div class="price">£14.90</div><p>Steam rice with deep fried vegetable spring roll and salad.</p><button class="add" data-name="Bento" data-price="14.90">Add to Order</button></div>
+    <div class="card"><h3>Kimchi Fried Rice (Spicy)</h3><div class="price">£13.90</div><p>Stir fried rice with kimchi and fried egg on top.</p><button class="add" data-name="Kimchi Fried Rice (Spicy)" data-price="13.90">Add to Order</button></div>
+    <div class="card"><h3>Egg Fried Rice</h3><div class="price">£8.00</div><p>Simple, golden egg fried rice — vegetarian.</p><button class="add" data-name="Egg Fried Rice" data-price="8.00">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🍜 Noodles</div>
+  <div class="menu">
+    <div class="card"><h3>Fried Udon</h3><div class="price">£14.90</div><p>Stir fried thick noodles with mixed vegetables in a soy sauce.</p><button class="add" data-name="Fried Udon" data-price="14.90">Add to Order</button></div>
+    <div class="card"><h3>Jajangmyeon</h3><div class="price">£13.50</div><p>Noodle in black bean sauce with pork, mixed vegetables and boiled egg.</p><button class="add" data-name="Jajangmyeon" data-price="13.50">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🔥 Stir Fried &amp; BBQ</div>
+  <div class="menu">
+    <div class="card"><h3>Spicy Pork</h3><div class="price">£15.50</div><p>Fiery stir-fried pork with onions and gochujang.</p><button class="add" data-name="Spicy Pork" data-price="15.50">Add to Order</button></div>
+    <div class="card"><h3>Spicy Chicken</h3><div class="price">£15.50</div><p>Fiery stir-fried chicken with onions and gochujang.</p><button class="add" data-name="Spicy Chicken" data-price="15.50">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🍲 Soup &amp; Stew</div>
+  <div class="menu">
+    <div class="card"><h3>Budae Jjigae</h3><div class="price">£16.50</div><p>Spicy hot pot made with sausage, pork, noodles, kimchi and tofu. Steamed rice included.</p><button class="add" data-name="Budae Jjigae" data-price="16.50">Add to Order</button></div>
+    <div class="card"><h3>Kimchi Jjigae</h3><div class="price">£15.50</div><p>Spicy kimchi stew with pork and tofu. Steamed rice included.</p><button class="add" data-name="Kimchi Jjigae" data-price="15.50">Add to Order</button></div>
+    <div class="card"><h3>Seafood Soft Tofu Jjigae</h3><div class="price">£16.50</div><p>Spicy stew with soft tofu and seafood. Steamed rice included.</p><button class="add" data-name="Seafood Soft Tofu Jjigae" data-price="16.50">Add to Order</button></div>
+    <div class="card"><h3>Odeng Tang (Fish Cake Soup)</h3><div class="price">£16.50</div><p>Mild soup with fish cake and vegetables. Steamed rice included.</p><button class="add" data-name="Odeng Tang (Fish Cake Soup)" data-price="16.50">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🎉 Set Menus</div>
+  <div class="menu">
+    <div class="card"><h3>Meal for 1 (A)</h3><div class="price">£25.00</div><p>Miso soup, chicken dumplings 3 pieces, KFC yang nyeum chicken 3 pieces, bibimbap (beef, spicy chicken, soy chicken, spicy pork, tofu or vegetable) and Korean choco pie dessert.</p><button class="add" data-name="Meal for 1 (A)" data-price="25.00">Add to Order</button></div>
+    <div class="card"><h3>Meal for 2 (B)</h3><div class="price">£69.00</div><p>Miso soup x 2, tasting side dishes, chicken dumplings 5 pieces, KFC yang nyeum chicken 5 pieces, japchae with beef, bibimbap x 2 and Korean choco pie x 2.</p><button class="add" data-name="Meal for 2 (B)" data-price="69.00">Add to Order</button></div>
+    <div class="card"><h3>Daebak Chimek Set (Chicken &amp; Beer Set)</h3><div class="price">£72.00</div><p>KFC large half &amp; half chicken 16 pieces, chicken yakitori 3 pieces, tteokbokki, fried chips with cheese powder and Terra beer 3 bottles.</p><button class="add" data-name="Daebak Chimek Set (Chicken & Beer Set)" data-price="72.00">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🥤 Drinks</div>
+  <div class="menu">
+    <div class="card"><h3>Korean Cinnamon Punch 238ml</h3><div class="price">£3.50</div><p>Korean traditional drink made of persimmon, cinnamon and ginger. Non-alcoholic.</p><button class="add" data-name="Korean Cinnamon Punch 238ml" data-price="3.50">Add to Order</button></div>
+  </div>
+
+  <div class="order-panel" id="order">
+    <h2>🍗 Your Order</h2>
+    <p class="sec-sub">Pick your items, then place your order for pickup at Kennington Lane.</p>
+    <ul id="orderList"></ul>
+    <p class="empty-note" id="emptyNote">Your tray is empty — add something delicious from the menu above.</p>
+    <div id="orderTotal" style="display:none">Total: £<span id="totalAmt">0.00</span></div>
+    <div class="order-form" id="orderForm" style="display:none">
+      <input type="text" id="custName" placeholder="Your name">
+      <input type="tel" id="custPhone" placeholder="Phone number">
+    </div>
+    <button class="place-btn" id="placeBtn" style="display:none">Place Order for Pickup</button>
+    <div class="confirm" id="confirmBox">
+      <div class="big">🍗</div>
+      <h3>Order received!</h3>
+      <p id="confirmText">We'll have it hot and ready for pickup in about 15 minutes. Show this screen at the counter.</p>
+    </div>
+  </div>
+
+  <div class="hype">
+    <div class="stars">★★★★★</div>
+    <h2>A Vauxhall favourite since 2017</h2>
+    <p>From the Oval crowds to the locals, everyone comes for the same thing — <strong>legendary double-fried Korean chicken</strong>, generous portions and quick, friendly service. Come taste why Daebak means a big win.</p>
+  </div>
+
+  <h2 id="visit">Visit Us</h2>
+  <p class="sec-sub">Find us on Kennington Lane, minutes from Vauxhall station — order ahead or walk in.</p>
+  <div class="locs">
+    <div class="loc">
+      <h3>📍 Kennington Lane — Vauxhall</h3>
+      <p>📍 316–318 Kennington Lane<br>London SE11 5HY</p>
+      <p>📞 <a href="tel:+442076421522">+44 20 7642 1522</a></p>
+      <table class="hours-table" id="hoursTable">
+        <tr data-day="1"><td>Monday</td><td>12:00 PM – 3:00 PM, 5:00 PM – 10:30 PM</td></tr>
+        <tr data-day="2"><td>Tuesday</td><td>12:00 PM – 3:00 PM, 5:00 PM – 10:30 PM</td></tr>
+        <tr data-day="3"><td>Wednesday</td><td>12:00 PM – 3:00 PM, 5:00 PM – 10:30 PM</td></tr>
+        <tr data-day="4"><td>Thursday</td><td>12:00 PM – 3:00 PM, 5:00 PM – 10:30 PM</td></tr>
+        <tr data-day="5"><td>Friday</td><td>12:00 PM – 3:00 PM, 5:00 PM – 10:30 PM</td></tr>
+        <tr data-day="6"><td>Saturday</td><td>12:00 PM – 10:30 PM</td></tr>
+        <tr data-day="0"><td>Sunday</td><td>12:00 PM – 9:30 PM</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="demo-note">💡 <strong>Demo concept website created by Launchly.</strong> This is a sample design — not the business's real website. Menu items, prices and hours shown are samples.</div>
+</div>
+
+<div class="sticky-bar"><a href="#order">🍗 Order Now</a></div>
+
+<footer>
+  <div class="fname">Daebak</div>
+  <div>Vauxhall, London · 📸 @daebak_london</div>
+</footer>
+
+<script>
+var order={};
+function fmt(n){return n.toFixed(2)}
+function render(){
+  var list=document.getElementById('orderList');
+  list.innerHTML='';
+  var total=0,count=0;
+  Object.keys(order).forEach(function(name){
+    var it=order[name];
+    total+=it.price*it.qty; count+=it.qty;
+    var li=document.createElement('li');
+    li.innerHTML='<span>'+name+'</span><span class="qtybox"><button class="qbtn" data-act="dec" data-name="'+name+'" aria-label="decrease">−</button><span>× '+it.qty+'</span><button class="qbtn" data-act="inc" data-name="'+name+'" aria-label="increase">+</button><span>£'+fmt(it.price*it.qty)+'</span><button class="rm" data-act="rm" data-name="'+name+'" aria-label="remove">×</button></span>';
+    list.appendChild(li);
+  });
+  var has=count>0;
+  document.getElementById('emptyNote').style.display=has?'none':'block';
+  document.getElementById('orderTotal').style.display=has?'block':'none';
+  document.getElementById('orderForm').style.display=has?'grid':'none';
+  document.getElementById('placeBtn').style.display=has?'block':'none';
+  document.getElementById('totalAmt').textContent=fmt(total);
+  list.querySelectorAll('button').forEach(function(b){
+    b.onclick=function(){
+      var n=b.getAttribute('data-name'),act=b.getAttribute('data-act');
+      if(!order[n])return;
+      if(act==='inc')order[n].qty++;
+      else if(act==='dec'){order[n].qty--;if(order[n].qty<=0)delete order[n];}
+      else if(act==='rm')delete order[n];
+      render();
+    };
+  });
+}
+document.querySelectorAll('.add').forEach(function(btn){
+  btn.onclick=function(){
+    var name=btn.getAttribute('data-name');
+    if(order[name])order[name].qty++;
+    else order[name]={price:parseFloat(btn.getAttribute('data-price')),qty:1};
+    btn.textContent='Added ✓';btn.classList.add('added');
+    setTimeout(function(){btn.textContent='Add to Order';btn.classList.remove('added');},1200);
+    render();
+  };
+});
+document.getElementById('placeBtn').onclick=function(){
+  var name=document.getElementById('custName').value.trim();
+  if(!name){alert('Please enter your name so we know whose order it is!');return;}
+  var total=document.getElementById('totalAmt').textContent;
+  document.getElementById('confirmText').textContent='Thanks '+name+'! Your £'+total+' order will be hot and ready for pickup at 316–318 Kennington Lane in about 15 minutes. Show this screen at the counter.';
+  document.getElementById('orderList').style.display='none';
+  document.getElementById('orderTotal').style.display='none';
+  document.getElementById('orderForm').style.display='none';
+  document.getElementById('placeBtn').style.display='none';
+  document.getElementById('emptyNote').style.display='none';
+  document.getElementById('confirmBox').style.display='block';
+  document.getElementById('confirmBox').scrollIntoView({behavior:'smooth',block:'center'});
+};
+/* open-now badge + today highlight (Europe/London) — split hours: Sun 12:00–21:30; Mon–Fri 12:00–15:00 & 17:00–22:30; Sat 12:00–22:30 */
+try{
+  var now=new Date(new Date().toLocaleString('en-US',{timeZone:'Europe/London'}));
+  var d=now.getDay(),h=now.getHours()+now.getMinutes()/60;
+  var isOpen=false;
+  if(d===0){isOpen=(h>=12&&h<21.5);}
+  else if(d===6){isOpen=(h>=12&&h<22.5);}
+  else{isOpen=((h>=12&&h<15)||(h>=17&&h<22.5));}
+  var b=document.getElementById('openBadge');
+  b.textContent=isOpen?'● Open Now':'● Currently Closed';
+  b.classList.add(isOpen?'open':'closed');
+  var row=document.querySelector('#hoursTable tr[data-day="'+d+'"]');
+  if(row)row.classList.add('today');
+}catch(e){}
+render();
+</script>
+</body>
+</html>
