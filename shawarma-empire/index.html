@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shawarma Empire — Scarborough</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --char:#221a12; --char2:#2e241a; --red:#b3402a; --red2:#8f3220;
+  --gold:#e0a63c; --gold2:#b9832a; --cream:#faf3e3; --cream2:#f1e2c2;
+  --ink:#2b2118; --muted:#8a7355;
+}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+/* ---------- demo badge (outer frame only) ---------- */
+.demo-badge{position:fixed;top:12px;right:12px;z-index:999;background:#221a12;color:#e0a63c;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:8px 14px;border-radius:999px;border:1px solid #e0a63c;opacity:.92}
+/* ---------- hero ---------- */
+.hero{background:radial-gradient(ellipse at 50% -20%,rgba(224,166,60,.35),transparent 60%),linear-gradient(160deg,#221a12 0%,#4a2415 55%,#8f3220 100%);color:#fff;padding:90px 20px 60px;text-align:center;position:relative}
+.hero .kicker{display:inline-block;background:var(--gold);color:#221a12;font-weight:800;font-size:12px;letter-spacing:2px;padding:7px 18px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-size:clamp(2.2em,6vw,3.6em);font-weight:900;line-height:1.1;text-shadow:0 3px 18px rgba(0,0,0,.5)}
+.hero h1 .accent{color:var(--gold)}
+.hero .tag{font-size:1.15em;margin-top:10px;opacity:.94}
+.hero .motifs{font-size:1.6em;margin-top:14px;letter-spacing:8px}
+.open-now{display:inline-block;margin-top:12px;padding:8px 22px;border-radius:25px;font-weight:bold;font-size:.95em}
+.open{background:#2e7d32;color:#fff}.closed{background:#5d4037;color:#fff}
+.cta-row{margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;font-weight:800;padding:15px 36px;border-radius:999px;text-decoration:none;font-size:1.05em;transition:transform .15s}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--red));color:#fff;box-shadow:0 6px 24px rgba(179,64,42,.45)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.6)}
+.btn-ghost:hover{background:rgba(255,255,255,.25)}
+/* ---------- sections ---------- */
+.container{max-width:960px;margin:0 auto;padding:48px 20px}
+h2{font-size:1.9em;margin-bottom:6px;color:var(--red2)}
+.sec-sub{color:var(--muted);margin-bottom:26px;font-size:1.02em}
+.menu-cat{font-size:1.25em;font-weight:800;color:var(--char);margin:30px 0 14px;display:flex;align-items:center;gap:10px}
+.menu-cat::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 14px rgba(60,30,10,.09);border-top:4px solid var(--gold);display:flex;flex-direction:column}
+.card h3{font-size:1.08em;margin-bottom:2px}
+.card .price{color:var(--red);font-weight:800;font-size:1.2em;margin:4px 0}
+.card p{font-size:.9em;color:var(--muted);flex:1}
+.card .add{margin-top:12px;background:var(--char);color:#fff;border:none;font-weight:700;padding:10px;border-radius:10px;cursor:pointer;font-size:.95em}
+.card .add:hover{background:var(--red2)}
+.card .add.added{background:#2e7d32}
+/* ---------- order panel ---------- */
+.order-panel{background:var(--char);color:#fff;border-radius:18px;padding:32px;margin:44px 0;box-shadow:0 10px 40px rgba(34,26,18,.35)}
+.order-panel h2{color:var(--gold);margin-bottom:4px}
+.order-panel .sec-sub{color:#cdb894}
+#orderList{list-style:none;margin:18px 0}
+#orderList li{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed #5a5248;font-size:.98em;gap:8px}
+#orderList .qtybox{display:flex;align-items:center;gap:8px;white-space:nowrap}
+#orderList .qbtn{background:#3a352f;border:1px solid #6b6154;color:#f5e6c8;width:26px;height:26px;border-radius:8px;cursor:pointer;font-weight:800;font-size:.95em;line-height:1}
+#orderList .qbtn:hover{background:var(--red2);color:#fff}
+#orderList .rm{background:none;border:none;color:#e08a3c;cursor:pointer;font-size:1.1em;font-weight:700}
+#orderTotal{font-size:1.35em;font-weight:800;text-align:right;margin:8px 0 18px;color:var(--gold)}
+.order-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.order-form input{background:#33291f;border:1px solid #5a5248;color:#fff;padding:13px 16px;border-radius:10px;font-size:1em;width:100%}
+.order-form input::placeholder{color:#a08c68}
+.place-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--red));color:#fff;border:none;font-weight:800;font-size:1.15em;padding:16px;border-radius:14px;cursor:pointer}
+.place-btn:hover{filter:brightness(1.08)}
+.confirm{display:none;text-align:center;padding:20px 0}
+.confirm .big{font-size:3em;margin-bottom:10px}
+.confirm h3{color:var(--gold);font-size:1.5em;margin-bottom:8px}
+.confirm p{color:#e8d9ba;max-width:420px;margin:0 auto}
+.empty-note{color:#a08c68;text-align:center;padding:18px 0;font-style:italic}
+/* ---------- visit ---------- */
+.locs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.loc{background:#fff;border-radius:14px;padding:26px;box-shadow:0 2px 14px rgba(60,30,10,.09)}
+.loc h3{color:var(--red2);margin-bottom:8px;font-size:1.2em}
+.loc p{margin:6px 0;color:var(--ink)}
+.loc a{color:var(--red2);font-weight:700;text-decoration:none}
+.loc a:hover{text-decoration:underline}
+.hours-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.95em}
+.hours-table td{padding:7px 10px;border-bottom:1px solid #f1e2c2;color:var(--ink)}
+.hours-table td:last-child{text-align:right;font-weight:600}
+.hours-table tr.today td{background:#fdf3d0;font-weight:800;color:var(--red2)}
+.hours-table tr.today td:last-child{color:var(--red2)}
+/* ---------- footer ---------- */
+footer{background:var(--char);color:#a08c68;text-align:center;padding:34px 20px;font-size:.9em}
+footer .fname{color:var(--gold);font-weight:800;font-size:1.1em;margin-bottom:6px}
+.demo-note{background:#fff3cd;border:1px solid #ffc107;border-radius:10px;padding:14px 18px;margin:34px auto 0;max-width:960px;font-size:.88em;text-align:center;color:#5d4a1f}
+/* ---------- sticky bar ---------- */
+.sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--gold),var(--red));padding:15px;text-align:center;z-index:100}
+.sticky-bar a{color:#fff;text-decoration:none;font-weight:800;font-size:1.15em}
+@media(max-width:640px){
+  .sticky-bar{display:block}
+  body{padding-bottom:60px}
+  .order-form{grid-template-columns:1fr}
+  .container{padding:36px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-badge">DEMO CONCEPT</div>
+
+<div class="hero">
+  <div class="kicker">🥙 SCARBOROUGH'S SHAWARMA SPOT</div>
+  <h1>Shawarma <span class="accent">Empire</span></h1>
+  <p class="tag">Slow-roasted shawarma, carved fresh off the spit — sandwiches, plates and combos, made to order.</p>
+  <div class="motifs">🥙 🧄 🍋 🫓</div>
+  <div><span class="open-now" id="openBadge">Checking hours…</span></div>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#order">🥙 Order Now</a>
+    <a class="btn btn-ghost" href="#visit">📍 Visit Us</a>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Menu</h2>
+  <p class="sec-sub">Order ahead for pickup on Lawrence Ave E, Scarborough. Prices in CAD, before tax — from the current delivery-platform menu.</p>
+
+  <div class="menu-cat">🥙 Shawarma Sandwiches</div>
+  <div class="menu">
+    <div class="card"><h3>Chicken Shawarma</h3><div class="price">$11.25</div><p>Marinated chicken, slow-roasted and wrapped with pickles and garlic sauce.</p><button class="add" data-name="Chicken Shawarma" data-price="11.25">Add to Order</button></div>
+    <div class="card"><h3>Beef Shawarma</h3><div class="price">$11.75</div><p>Seasoned beef, carved off the spit and wrapped with pickles and garlic sauce.</p><button class="add" data-name="Beef Shawarma" data-price="11.75">Add to Order</button></div>
+    <div class="card"><h3>Mix Shawarma</h3><div class="price">$11.75</div><p>Chicken and beef together — the best of both, in one wrap.</p><button class="add" data-name="Mix Shawarma" data-price="11.75">Add to Order</button></div>
+    <div class="card"><h3>Falafel</h3><div class="price">$9.75</div><p>Crispy falafel wrapped with salad, pickles and tahini.</p><button class="add" data-name="Falafel" data-price="9.75">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🍽️ Shawarma Plates</div>
+  <div class="menu">
+    <div class="card"><h3>Chicken Shawarma Plate</h3><div class="price">$19.49</div><p>Chicken shawarma served open-plate style with rice and salad.</p><button class="add" data-name="Chicken Shawarma Plate" data-price="19.49">Add to Order</button></div>
+    <div class="card"><h3>Beef Shawarma Plate</h3><div class="price">$20.25</div><p>Beef shawarma served open-plate style with rice and salad.</p><button class="add" data-name="Beef Shawarma Plate" data-price="20.25">Add to Order</button></div>
+    <div class="card"><h3>Mix Shawarma Plate</h3><div class="price">$20.25</div><p>Chicken and beef shawarma served open-plate style with rice and salad.</p><button class="add" data-name="Mix Shawarma Plate" data-price="20.25">Add to Order</button></div>
+    <div class="card"><h3>Falafel Plate</h3><div class="price">$16.99</div><p>Crispy falafel served open-plate style with rice and salad.</p><button class="add" data-name="Falafel Plate" data-price="16.99">Add to Order</button></div>
+    <div class="card"><h3>Mojadarah Plate</h3><div class="price">$12.99</div><p>Lentils and rice topped with caramelized onions.</p><button class="add" data-name="Mojadarah Plate" data-price="12.99">Add to Order</button></div>
+    <div class="card"><h3>Chicken Shawarma Plate with Fries</h3><div class="price">$19.49</div><p>Chicken shawarma plate, served with fries.</p><button class="add" data-name="Chicken Shawarma Plate with Fries" data-price="19.49">Add to Order</button></div>
+    <div class="card"><h3>Beef Shawarma Plate with Fries</h3><div class="price">$20.25</div><p>Beef shawarma plate, served with fries.</p><button class="add" data-name="Beef Shawarma Plate with Fries" data-price="20.25">Add to Order</button></div>
+    <div class="card"><h3>Mix Shawarma Plate with Fries</h3><div class="price">$20.25</div><p>Chicken and beef shawarma plate, served with fries.</p><button class="add" data-name="Mix Shawarma Plate with Fries" data-price="20.25">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🎁 Combos</div>
+  <div class="menu">
+    <div class="card"><h3>Combo 1</h3><div class="price">$18.25</div><p>A filling combo plate with shawarma, rice and salad.</p><button class="add" data-name="Combo 1" data-price="18.25">Add to Order</button></div>
+    <div class="card"><h3>Combo 2</h3><div class="price">$18.25</div><p>A filling combo plate with shawarma, rice and salad.</p><button class="add" data-name="Combo 2" data-price="18.25">Add to Order</button></div>
+    <div class="card"><h3>Combo 3</h3><div class="price">$18.25</div><p>A filling combo plate with shawarma, rice and salad.</p><button class="add" data-name="Combo 3" data-price="18.25">Add to Order</button></div>
+    <div class="card"><h3>Beef Combo 1</h3><div class="price">$19.50</div><p>A filling beef combo plate with rice and salad.</p><button class="add" data-name="Beef Combo 1" data-price="19.50">Add to Order</button></div>
+    <div class="card"><h3>Beef Combo 2</h3><div class="price">$19.50</div><p>A filling beef combo plate with rice and salad.</p><button class="add" data-name="Beef Combo 2" data-price="19.50">Add to Order</button></div>
+    <div class="card"><h3>Beef Combo 3</h3><div class="price">$19.50</div><p>A filling beef combo plate with rice and salad.</p><button class="add" data-name="Beef Combo 3" data-price="19.50">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🥗 Salads &amp; Sides</div>
+  <div class="menu">
+    <div class="card"><h3>Tabooli Salad</h3><div class="price">$6.75</div><p>Fresh parsley, tomato and cracked wheat with lemon.</p><button class="add" data-name="Tabooli Salad" data-price="6.75">Add to Order</button></div>
+    <div class="card"><h3>House Salad</h3><div class="price">$5.49</div><p>Crisp garden salad with dressing.</p><button class="add" data-name="House Salad" data-price="5.49">Add to Order</button></div>
+    <div class="card"><h3>Greek Salad</h3><div class="price">$6.75</div><p>Tomato, cucumber, onion and feta with dressing.</p><button class="add" data-name="Greek Salad" data-price="6.75">Add to Order</button></div>
+    <div class="card"><h3>Hummus</h3><div class="price">$5.99</div><p>Smooth chickpea dip, served with pita.</p><button class="add" data-name="Hummus" data-price="5.99">Add to Order</button></div>
+    <div class="card"><h3>Soup</h3><div class="price">$5.25</div><p>Soup of the day — ask in store.</p><button class="add" data-name="Soup" data-price="5.25">Add to Order</button></div>
+    <div class="card"><h3>Rice</h3><div class="price">$5.49</div><p>Seasoned rice, the plate's best friend.</p><button class="add" data-name="Rice" data-price="5.49">Add to Order</button></div>
+    <div class="card"><h3>Fries</h3><div class="price">$6.49</div><p>Golden, crispy fries.</p><button class="add" data-name="Fries" data-price="6.49">Add to Order</button></div>
+    <div class="card"><h3>Spinach Pie</h3><div class="price">$6.49</div><p>Baked pastry filled with seasoned spinach.</p><button class="add" data-name="Spinach Pie" data-price="6.49">Add to Order</button></div>
+    <div class="card"><h3>Extra Sauce</h3><div class="price">$0.99</div><p>An extra portion of your favourite sauce.</p><button class="add" data-name="Extra Sauce" data-price="0.99">Add to Order</button></div>
+    <div class="card"><h3>Pita Bread</h3><div class="price">$0.99</div><p>Warm, soft pita.</p><button class="add" data-name="Pita Bread" data-price="0.99">Add to Order</button></div>
+    <div class="card"><h3>Falafel Pieces</h3><div class="price">$1.25</div><p>A few extra crispy falafel pieces.</p><button class="add" data-name="Falafel Pieces" data-price="1.25">Add to Order</button></div>
+    <div class="card"><h3>Baklava</h3><div class="price">$5.25</div><p>Sweet, flaky pastry layered with nuts and honey syrup.</p><button class="add" data-name="Baklava" data-price="5.25">Add to Order</button></div>
+  </div>
+
+  <div class="menu-cat">🥤 Drinks</div>
+  <div class="menu">
+    <div class="card"><h3>Coca-Cola</h3><div class="price">$1.99</div><p>Ice cold.</p><button class="add" data-name="Coca-Cola" data-price="1.99">Add to Order</button></div>
+    <div class="card"><h3>Diet Coke</h3><div class="price">$1.99</div><p>Ice cold.</p><button class="add" data-name="Diet Coke" data-price="1.99">Add to Order</button></div>
+    <div class="card"><h3>Ginger Ale</h3><div class="price">$1.99</div><p>Ice cold.</p><button class="add" data-name="Ginger Ale" data-price="1.99">Add to Order</button></div>
+    <div class="card"><h3>Pepsi</h3><div class="price">$1.99</div><p>Ice cold.</p><button class="add" data-name="Pepsi" data-price="1.99">Add to Order</button></div>
+    <div class="card"><h3>Water</h3><div class="price">$1.99</div><p>Chilled bottled water.</p><button class="add" data-name="Water" data-price="1.99">Add to Order</button></div>
+    <div class="card"><h3>Mango Juice</h3><div class="price">$3.75</div><p>Sweet mango juice.</p><button class="add" data-name="Mango Juice" data-price="3.75">Add to Order</button></div>
+    <div class="card"><h3>Ayran</h3><div class="price">$4.49</div><p>Chilled yoghurt drink.</p><button class="add" data-name="Ayran" data-price="4.49">Add to Order</button></div>
+  </div>
+
+  <div class="order-panel" id="order">
+    <h2>🥙 Your Order</h2>
+    <p class="sec-sub">Pick your items, then place your order for pickup on Lawrence Ave E.</p>
+    <ul id="orderList"></ul>
+    <p class="empty-note" id="emptyNote">Your tray is empty — add something delicious from the menu above.</p>
+    <div id="orderTotal" style="display:none">Total: $<span id="totalAmt">0.00</span></div>
+    <div class="order-form" id="orderForm" style="display:none">
+      <input type="text" id="custName" placeholder="Your name">
+      <input type="tel" id="custPhone" placeholder="Phone number">
+    </div>
+    <button class="place-btn" id="placeBtn" style="display:none">Place Order for Pickup</button>
+    <div class="confirm" id="confirmBox">
+      <div class="big">🥙</div>
+      <h3>Order received!</h3>
+      <p id="confirmText">We'll have it hot and ready for pickup in about 15 minutes. Show this screen at the counter.</p>
+    </div>
+  </div>
+
+  <h2 id="visit">Visit Us</h2>
+  <p class="sec-sub">Find us on Lawrence Ave E in Scarborough — order ahead or walk up to the counter.</p>
+  <div class="locs">
+    <div class="loc">
+      <h3>📍 Lawrence Ave E — Scarborough</h3>
+      <p>📍 1823 Lawrence Ave E<br>Scarborough, ON M1R 2Y3</p>
+      <p>📞 <a href="tel:+14162851337">(416) 285-1337</a></p>
+      <table class="hours-table" id="hoursTable">
+        <tr data-day="1"><td>Monday</td><td>11:00 AM – 10:00 PM</td></tr>
+        <tr data-day="2"><td>Tuesday</td><td>11:00 AM – 10:00 PM</td></tr>
+        <tr data-day="3"><td>Wednesday</td><td>11:00 AM – 10:00 PM</td></tr>
+        <tr data-day="4"><td>Thursday</td><td>11:00 AM – 10:00 PM</td></tr>
+        <tr data-day="5"><td>Friday</td><td>11:00 AM – 12:00 AM</td></tr>
+        <tr data-day="6"><td>Saturday</td><td>11:00 AM – 12:00 AM</td></tr>
+        <tr data-day="0"><td>Sunday</td><td>11:00 AM – 10:00 PM</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="demo-note">💡 <strong>Demo concept website created by Launchly.</strong> This is a sample design — not the business's real website.</div>
+</div>
+
+<div class="sticky-bar"><a href="#order">🥙 Order Now</a></div>
+
+<footer>
+  <div class="fname">Shawarma Empire</div>
+  <div>Scarborough, ON</div>
+</footer>
+
+<script>
+var order={};
+function fmt(n){return n.toFixed(2)}
+function render(){
+  var list=document.getElementById('orderList');
+  list.innerHTML='';
+  var total=0,count=0;
+  Object.keys(order).forEach(function(name){
+    var it=order[name];
+    total+=it.price*it.qty; count+=it.qty;
+    var li=document.createElement('li');
+    li.innerHTML='<span>'+name+'</span><span class="qtybox"><button class="qbtn" data-act="dec" data-name="'+name+'" aria-label="decrease">−</button><span>× '+it.qty+'</span><button class="qbtn" data-act="inc" data-name="'+name+'" aria-label="increase">+</button><span>$'+fmt(it.price*it.qty)+'</span><button class="rm" data-act="rm" data-name="'+name+'" aria-label="remove">×</button></span>';
+    list.appendChild(li);
+  });
+  var has=count>0;
+  document.getElementById('emptyNote').style.display=has?'none':'block';
+  document.getElementById('orderTotal').style.display=has?'block':'none';
+  document.getElementById('orderForm').style.display=has?'grid':'none';
+  document.getElementById('placeBtn').style.display=has?'block':'none';
+  document.getElementById('totalAmt').textContent=fmt(total);
+  list.querySelectorAll('button').forEach(function(b){
+    b.onclick=function(){
+      var n=b.getAttribute('data-name'),act=b.getAttribute('data-act');
+      if(!order[n])return;
+      if(act==='inc')order[n].qty++;
+      else if(act==='dec'){order[n].qty--;if(order[n].qty<=0)delete order[n];}
+      else if(act==='rm')delete order[n];
+      render();
+    };
+  });
+}
+document.querySelectorAll('.add').forEach(function(btn){
+  btn.onclick=function(){
+    var name=btn.getAttribute('data-name');
+    if(order[name])order[name].qty++;
+    else order[name]={price:parseFloat(btn.getAttribute('data-price')),qty:1};
+    btn.textContent='Added ✓';btn.classList.add('added');
+    setTimeout(function(){btn.textContent='Add to Order';btn.classList.remove('added');},1200);
+    render();
+  };
+});
+document.getElementById('placeBtn').onclick=function(){
+  var name=document.getElementById('custName').value.trim();
+  if(!name){alert('Please enter your name so we know whose order it is!');return;}
+  var total=document.getElementById('totalAmt').textContent;
+  document.getElementById('confirmText').textContent='Thanks '+name+'! Your $'+total+' order will be hot and ready for pickup at 1823 Lawrence Ave E in about 15 minutes. Show this screen at the counter.';
+  document.getElementById('orderList').style.display='none';
+  document.getElementById('orderTotal').style.display='none';
+  document.getElementById('orderForm').style.display='none';
+  document.getElementById('placeBtn').style.display='none';
+  document.getElementById('emptyNote').style.display='none';
+  document.getElementById('confirmBox').style.display='block';
+  document.getElementById('confirmBox').scrollIntoView({behavior:'smooth',block:'center'});
+};
+/* open-now badge + today highlight (America/Toronto) — Sun–Thu 11:00 AM–10:00 PM, Fri–Sat 11:00 AM–12:00 AM */
+try{
+  var now=new Date(new Date().toLocaleString('en-US',{timeZone:'America/Toronto'}));
+  var d=now.getDay(),h=now.getHours()+now.getMinutes()/60;
+  var closeH=(d===5||d===6)?24:22;
+  var isOpen=(h>=11&&h<closeH);
+  var b=document.getElementById('openBadge');
+  b.textContent=isOpen?'● Open Now':'● Currently Closed';
+  b.classList.add(isOpen?'open':'closed');
+  var row=document.querySelector('#hoursTable tr[data-day="'+d+'"]');
+  if(row)row.classList.add('today');
+}catch(e){}
+render();
+</script>
+</body>
+</html>
